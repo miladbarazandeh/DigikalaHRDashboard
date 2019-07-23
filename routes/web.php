@@ -22,3 +22,11 @@ $router->post(
     ]
 );
 
+$router->group(['middleware' => 'jwt.auth'],
+    function() use ($router) {
+        $router->get('users', function() {
+            $users = \App\User::all();
+            return response()->json($users);
+        });
+    }
+);
