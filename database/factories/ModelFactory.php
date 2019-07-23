@@ -14,7 +14,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name'=> $faker->name,
         'email'=> $faker->unique()->email,
-        'role'=>  $faker->randomElement(['admin', 'leader', 'employee']),
+        'role'=>  $faker->randomElement(['admin', 'lead', 'employee']),
         'password'=>Hash::make('12345'),
     ];
 });
