@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Hash;
 */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
-        'name'     => $faker->name,
-        'email'    => $faker->unique()->email,
-        'password' => Hash::make('12345'),
+        'name'=> $faker->name,
+        'email'=> $faker->unique()->email,
+        'role'=>  $faker->randomElement(['admin', 'leader', 'employee']),
+        'password'=>Hash::make('12345'),
     ];
 });
