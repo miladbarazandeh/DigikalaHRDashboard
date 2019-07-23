@@ -25,6 +25,7 @@ class JwtMiddleware
             ], 400);
         } catch(Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'error' => 'An error while decoding token.'
             ], 400);
         }
