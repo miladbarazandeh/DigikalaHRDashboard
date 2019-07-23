@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
+
 use Validator;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class AuthController extends Controller
             'login'     => 'required',
             'password'  => 'required'
         ]);
-        $login_type = filter_var($this->request->json('login'), FILTER_VALIDATE_EMAIL ) ? 'email' : 'username'; //check if the login variable is an email or a username
+        $login_type = filter_var($this->request->get('login'), FILTER_VALIDATE_EMAIL ) ? 'email' : 'username'; //check if the login variable is an email or a username
         if($login_type == 'email'){
             $user = User::where('email', $this->request->json('login'))->first(); // Find the user by email
         }else{
