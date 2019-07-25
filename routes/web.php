@@ -30,3 +30,10 @@ $router->group(['middleware' => 'jwt.auth'],
         });
     }
 );
+
+$router->get(
+    '/import',
+    [
+        'uses' => 'ImportExcelController@importUsersAction'
+    ]
+);
