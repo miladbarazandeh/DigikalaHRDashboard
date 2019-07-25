@@ -14,6 +14,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CreateFormController extends Controller
 {
+    public function createFormAction(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $name = $query['name'];
+            $form = new Forms(
+                ['name'=>$name]
+            );
+            $form->save();
+            return response()->json($form->getAttribute('id'));
+        } catch (\Exception $exception)
+        {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
     public function setValuesAction(Request $request)
     {
         try {

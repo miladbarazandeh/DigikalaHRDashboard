@@ -79,3 +79,10 @@ $router->post(
         'uses' => 'CreateFormController@setParametersAction'
     ]
 );
+
+$router->post(
+    '/create-form',
+    [
+        'uses' => 'CreateFormController@createFormAction'
+    ]
+);
