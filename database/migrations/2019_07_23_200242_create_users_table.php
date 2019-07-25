@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', self::ROLE_ALL);
+            $table->integer('form_id')->nullable();
+            $table->json('assigned_form_ids')->nullable();
             $table->timestamps();
         });
     }
