@@ -12,7 +12,12 @@ class Forms extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name', 'parameters', 'categories', 'values',
     ];
 
+    protected $casts = [
+        'parameters' => 'array',
+        'categories'=>  'array',
+        'values'=> 'array',
+    ];
 }
