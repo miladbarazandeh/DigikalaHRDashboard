@@ -16,8 +16,6 @@ class CreateValuesTable extends Migration
         Schema::create('values', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->integer('form_id');
-            $table->float('weight');
             $table->timestamps();
         });
     }
