@@ -3,24 +3,36 @@
 namespace App\Http\Controllers;
 
 
-use App\Categories;
 use App\Forms;
 use App\Parameters;
 use App\Points;
 use App\User;
-use App\Values;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Request;
 
 class PointsController extends Controller
 {
+    public function getFormAction(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $employeeId = $query['employeeId'];
+            $user = User::where('id', '=', $employeeId)->first();
+            $form = Forms::where('id', '=', $user->form_id)->first();
+            $params = [];
+            foreach ($form->parameters as $id=>$weight){
+                $params[] = Parameters::where('id', '=', $id);
+            }
+            return response()->json($params);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
     public function setPointAction(Request $request)
     {
         try {
             $query = json_decode($request->getContent(), true);
-            $employeeId = $query['employee_id'];
-            $appraiserId = $query['appraiser_id'];
+            $employeeId = $query['employeeId'];
+            $appraiserId = $query['appraiserId'];
             $points = $query['points'];
             foreach ($points as $parameterId=>$point)
             {
