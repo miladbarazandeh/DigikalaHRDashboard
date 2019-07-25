@@ -72,3 +72,10 @@ $router->post(
         'uses' => 'CreateFormController@setCategoriesAction'
     ]
 );
+
+$router->post(
+    '/set-parameters',
+    [
+        'uses' => 'CreateFormController@setParametersAction'
+    ]
+);
