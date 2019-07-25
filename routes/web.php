@@ -51,3 +51,9 @@ $router->get(
         'uses' => 'ImportExcelController@importCategoriesAction'
     ]
 );
+$router->get(
+    '/import-values',
+    [
+        'uses' => 'ImportExcelController@importValuesAction'
+    ]
+);

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Categories;
 use App\Parameters;
 use App\User;
+use App\Values;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,6 +70,26 @@ class ImportExcelController extends Controller
             }
 
             Categories::insert($csv);
+        } catch (\Exception $exception) {
+            return response()->json(['error'=>$exception->getMessage()], 400);
+        }
+        return $csv;
+
+    }
+
+    public function importValuesAction(Request $request)
+    {
+        try {
+            $file_n = storage_path('values.csv');
+            $csv = array_map("str_getcsv", file($file_n));
+            $keys = array_shift($csv);
+            foreach ($csv as $i=>$row) {
+                $csv[$i] = array_combine($keys, $row);
+                $csv[$i]['created_at'] = Carbon::now();
+                $csv[$i]['updated_at'] = Carbon::now();
+            }
+
+            Values::insert($csv);
         } catch (\Exception $exception) {
             return response()->json(['error'=>$exception->getMessage()], 400);
         }
