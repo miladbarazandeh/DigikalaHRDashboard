@@ -57,3 +57,10 @@ $router->get(
         'uses' => 'ImportExcelController@importValuesAction'
     ]
 );
+
+$router->post(
+    '/set-values',
+    [
+        'uses' => 'CreateFormController@setValuesAction'
+    ]
+);
