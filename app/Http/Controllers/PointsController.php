@@ -18,8 +18,6 @@ class PointsController extends Controller
             $employeeId = $query['employeeId'];
             $user = User::where('id', '=', $employeeId)->first();
             $form = Forms::where('id', '=', $user->form_id)->first();
-//            $form = json_decode($form);
-//            return $form['parameters'];
             $params = [];
             foreach ($form['parameters'] as $id=>$weight){
                 $params[] = Parameters::find($id);
