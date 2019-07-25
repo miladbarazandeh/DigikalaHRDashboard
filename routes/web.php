@@ -37,3 +37,17 @@ $router->get(
         'uses' => 'ImportExcelController@importUsersAction'
     ]
 );
+
+$router->get(
+    '/import-parameters',
+    [
+        'uses' => 'ImportExcelController@importParametersAction'
+    ]
+);
+
+$router->get(
+    '/import-categories',
+    [
+        'uses' => 'ImportExcelController@importCategoriesAction'
+    ]
+);
