@@ -29,4 +29,19 @@ class CreateFormController extends Controller
         }
 
     }
+
+    public function setCategoriesAction(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $formId = $query['formId'];
+            $values = $query['values'];
+            $form = Forms::where('id', '=', $formId);
+            $form->update(['categories' => json_encode($values)]);
+            return response()->json('Form updated', 200);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+
+    }
 }

@@ -64,3 +64,11 @@ $router->post(
         'uses' => 'CreateFormController@setValuesAction'
     ]
 );
+
+
+$router->post(
+    '/set-categories',
+    [
+        'uses' => 'CreateFormController@setCategoriesAction'
+    ]
+);
