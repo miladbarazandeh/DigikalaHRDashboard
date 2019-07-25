@@ -86,3 +86,11 @@ $router->post(
         'uses' => 'CreateFormController@createFormAction'
     ]
 );
+
+$router->post(
+    '/get-form',
+    [
+        'uses' => 'PointsController@getFormAction'
+    ]
+);
+
