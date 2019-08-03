@@ -93,4 +93,9 @@ $router->post(
         'uses' => 'PointsController@getFormAction'
     ]
 );
-
+$router->post(
+    '/set-point',
+    [
+        'uses' => 'PointsController@setPointAction'
+    ]
+);

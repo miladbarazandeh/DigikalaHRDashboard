@@ -51,5 +51,4 @@ class PointsController extends Controller
             return response()->json($exception->getMessage(), 400);
         }
     }
-
 }

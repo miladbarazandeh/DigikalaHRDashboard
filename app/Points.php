@@ -22,4 +22,5 @@ class Points extends Model
      */
     protected $hidden = [
     ];
+
 }
