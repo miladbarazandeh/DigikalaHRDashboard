@@ -11,7 +11,7 @@ class UsersController extends Controller
     public function getAllUsers(Request $request)
     {
         try {
-            $users = User::all(['id', 'name']);
+            $users = User::all(['id', 'email', 'name']);
 
             return response()->json($users, 200);
         } catch (\Exception $exception) {

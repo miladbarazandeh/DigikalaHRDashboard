@@ -69,6 +69,10 @@ $app->singleton(
 $app->routeMiddleware([
     'jwt.auth' => App\Http\Middleware\JwtMiddleware::class,
 ]);
+
+$app->routeMiddleware([
+    'jwt.admin.auth' => App\Http\Middleware\JwtAdminMiddleware::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
