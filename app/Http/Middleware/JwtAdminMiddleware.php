@@ -5,7 +5,7 @@ use Exception;
 use App\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\ExpiredException;
-class JwtMiddleware
+class JwtAdminMiddleware
 {
     public function handle($request, Closure $next, $guard = null)
     {
