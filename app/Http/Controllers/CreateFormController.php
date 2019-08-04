@@ -29,13 +29,35 @@ class CreateFormController extends Controller
             return response()->json($exception->getMessage(), 400);
         }
     }
+
+    public function setForm(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $formId = $query['formId'];
+
+            $values = $query['values'];
+            $categories = $query['categories'];
+            $parameters = $query['parameters'];
+
+            $form = Forms::find($formId);
+
+            $form->update(['categories' => json_encode($categories)]);
+            $form->update(['values' => json_encode($values)]);
+            $form->update(['parameters' => json_encode($parameters)]);
+
+            return response()->json('Form Updated', 200);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
+
     public function setValuesAction(Request $request)
     {
         try {
             $query = json_decode($request->getContent(), true);
             $formId = $query['formId'];
             $values = $query['values'];
-            //return $values;
             $form = Forms::find($formId);
             $form->update(['values' => json_encode($values)]);
             return response()->json('Form updated', 200);
