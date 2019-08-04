@@ -29,11 +29,12 @@ class AuthController extends Controller
     }
 
     public function userAuthenticate(User $user) {
-        $this->validate($this->request, [
+//        return $this->request->json()->all();
+        \Validator::make($this->request->json()->all(), [
             'login'     => 'required',
             'password'  => 'required'
         ]);
-        $login_type = filter_var($this->request->get('login'), FILTER_VALIDATE_EMAIL ) ? 'email' : 'username'; //check if the login variable is an email or a username
+        $login_type = filter_var($this->request->json('login'), FILTER_VALIDATE_EMAIL ) ? 'email' : 'username'; //check if the login variable is an email or a username
         if($login_type == 'email'){
             $user = User::where('email', $this->request->json('login'))->first(); // Find the user by email
         }else{
