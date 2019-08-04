@@ -36,7 +36,7 @@ class CreateFormController extends Controller
             $formId = $query['formId'];
             $values = $query['values'];
             //return $values;
-            $form = Forms::where('id', '=', $formId);
+            $form = Forms::find($formId);
             $form->update(['values' => json_encode($values)]);
             return response()->json('Form updated', 200);
         } catch (\Exception $exception) {
@@ -50,8 +50,8 @@ class CreateFormController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $formId = $query['formId'];
-            $values = $query['values'];
-            $form = Forms::where('id', '=', $formId);
+            $values = $query['categories'];
+            $form = Forms::find($formId);
             $form->update(['categories' => json_encode($values)]);
             return response()->json('Form updated', 200);
         } catch (\Exception $exception) {
@@ -65,8 +65,8 @@ class CreateFormController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $formId = $query['formId'];
-            $values = $query['values'];
-            $form = Forms::where('id', '=', $formId);
+            $values = $query['parameters'];
+            $form = Forms::find($formId);
             $form->update(['parameters' => json_encode($values)]);
             return response()->json('Form updated', 200);
         } catch (\Exception $exception) {
