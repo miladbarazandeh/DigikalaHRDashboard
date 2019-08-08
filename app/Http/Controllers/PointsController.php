@@ -7,10 +7,23 @@ use App\Forms;
 use App\Parameters;
 use App\Points;
 use App\User;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 class PointsController extends Controller
 {
+    public function getList(Request $request)
+    {
+        try {
+            $user = $request->auth;
+            $assignedUserIds = json_decode($user->getAttribute('assigned_user_ids'));
+
+            $assignedUsers = User::whereIn('id', $assignedUserIds)->get(['id', 'name', 'email']);
+            return response()->json($assignedUsers);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
+
     public function getFormAction(Request $request)
     {
         try {

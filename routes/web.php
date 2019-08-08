@@ -33,6 +33,12 @@ $router->group(['middleware' => 'jwt.admin.auth'],
     }
 );
 
+$router->group(['middleware' => ['cors', 'jwt.auth']],
+    function() use ($router) {
+        $router->get('/get-list','PointsController@getList');
+    }
+);
+
 $router->get(
     '/import',
     [

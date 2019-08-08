@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'role', 'form_id', 'assigned_form_ids',
+        'name', 'email', 'role', 'form_id', 'assigned_user_ids',
     ];
 
     /**
@@ -28,5 +28,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password',
+    ];
+
+    protected $casts = [
+        'assigned_user_ids' => 'array'
     ];
 }

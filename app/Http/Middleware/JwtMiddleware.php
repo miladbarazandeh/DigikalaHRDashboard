@@ -5,6 +5,7 @@ use Exception;
 use App\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\ExpiredException;
+
 class JwtMiddleware
 {
     public function handle($request, Closure $next, $guard = null)
@@ -32,6 +33,7 @@ class JwtMiddleware
         $user = User::find($credentials->sub);
         // Now let's put the user in the request class so that you can grab it from there
         $request->auth = $user;
+        $request->request->add(['userid' => $user->id]);
         return $next($request);
     }
 }
