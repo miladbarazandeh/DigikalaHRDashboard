@@ -15,7 +15,7 @@ class PointsController extends Controller
     {
         try {
             $user = $request->auth;
-            $assignedUserIds = json_decode($user->getAttribute('assigned_user_ids'));
+            $assignedUserIds = $user->getAttribute('assigned_user_ids');
 
             $assignedUsers = User::whereIn('id', $assignedUserIds)->get(['id', 'name', 'email']);
             return response()->json($assignedUsers);
