@@ -74,8 +74,13 @@ $app->routeMiddleware([
     'jwt.admin.auth' => App\Http\Middleware\JwtAdminMiddleware::class,
 ]);
 
-$app->routeMiddleware([
-    'cors' => App\Http\Middleware\CorsMiddleware::class,
+//$app->routeMiddleware([
+//    'cors' => App\Http\Middleware\CorsMiddleware::class,
+//]);
+$app->register('Nord\Lumen\Cors\CorsServiceProvider');
+
+$app->middleware([
+	'Nord\Lumen\Cors\CorsMiddleware',
 ]);
 /*
 |--------------------------------------------------------------------------

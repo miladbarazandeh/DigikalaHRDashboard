@@ -15,17 +15,23 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-
-$router->group(['middleware' => 'cors'],
-    function() use ($router) {
-        $router->post(
-            'auth/login',
-            [
-                'uses' => 'AuthController@userAuthenticate'
-            ]
-        );
-    }
+$router->post(
+    'auth/login',
+    [
+        'uses' => 'AuthController@userAuthenticate'
+    ]
 );
+
+//$router->group(['middleware' => 'cors'],
+//    function() use ($router) {
+//        $router->post(
+//            'auth/login',
+//            [
+//                'uses' => 'AuthController@userAuthenticate'
+//            ]
+//        );
+//    }
+//);
 
 $router->group(['middleware' => 'jwt.admin.auth'],
     function() use ($router) {
