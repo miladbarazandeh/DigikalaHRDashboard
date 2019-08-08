@@ -39,9 +39,15 @@ $router->group(['middleware' => 'jwt.admin.auth'],
     }
 );
 
-$router->group(['middleware' => ['cors', 'jwt.auth']],
+$router->group(['middleware' => 'jwt.auth'],
     function() use ($router) {
         $router->get('/get-list','PointsController@getList');
+        $router->get(
+            '/get-form',
+            [
+                'uses' => 'PointsController@getFormAction'
+            ]
+        );
     }
 );
 
@@ -101,12 +107,6 @@ $router->post(
     ]
 );
 
-$router->post(
-    '/get-form',
-    [
-        'uses' => 'PointsController@getFormAction'
-    ]
-);
 $router->post(
     '/set-point',
     [
