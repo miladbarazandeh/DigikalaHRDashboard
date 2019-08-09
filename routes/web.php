@@ -52,6 +52,12 @@ $router->group(['middleware' => 'jwt.auth'],
                 'uses' => 'PointsController@getFormAction'
             ]
         );
+        $router->post(
+            '/set-point',
+            [
+                'uses' => 'PointsController@setPointAction'
+            ]
+        );
     }
 );
 
@@ -108,13 +114,5 @@ $router->post(
     '/create-form',
     [
         'uses' => 'CreateFormController@createFormAction'
-    ]
-);
-
-
-$router->post(
-    '/set-point',
-    [
-        'uses' => 'PointsController@setPointAction'
     ]
 );
