@@ -36,8 +36,12 @@ $router->post(
 $router->group(['middleware' => 'jwt.admin.auth'],
     function() use ($router) {
         $router->get('/users','UsersController@getAllUsers');
+        $router->get('user-template', 'ImportExcelController@getUserTemplatePath');
     }
 );
+
+
+
 
 $router->group(['middleware' => 'jwt.auth'],
     function() use ($router) {
