@@ -41,8 +41,8 @@ $router->group(['middleware' => 'jwt.admin.auth'],
 
 $router->group(['middleware' => 'jwt.auth'],
     function() use ($router) {
-        $router->get('/get-list','PointsController@getList');
-        $router->get(
+        $router->post('/get-list','PointsController@getList');
+        $router->post(
             '/get-form',
             [
                 'uses' => 'PointsController@getFormAction'
@@ -106,6 +106,7 @@ $router->post(
         'uses' => 'CreateFormController@createFormAction'
     ]
 );
+
 
 $router->post(
     '/set-point',
