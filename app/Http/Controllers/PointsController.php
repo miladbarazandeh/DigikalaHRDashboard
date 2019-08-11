@@ -16,7 +16,19 @@ class PointsController extends Controller
         try {
             $user = $request->auth;
             $assignedUserIds = $user->getAttribute('assigned_user_ids');
-
+            $employees = [];
+//            return key($assignedUserIds[2]);
+            foreach ($assignedUserIds as $assignedUserId) {
+                $employee = User::where('id', key($assignedUserId) )->get()->first();
+//                return $employee->name;
+                $employees[] = [
+                    'id' => $employee->id,
+                    'name'=>$employee->name,
+                    'email'=>$employee->email,
+                    'status'=>current($assignedUserId)
+                ];
+            }
+            return $employees;
             $assignedUsers = User::whereIn('id', $assignedUserIds)->get(['id', 'name', 'email']);
             return response()->json($assignedUsers);
         } catch (\Exception $exception) {
@@ -62,9 +74,21 @@ public function setPointAction(Request $request)
                 );
                 $pointDB->save();
             }
+            $appraiser = User::where('id', '=', $appraiserId)->first();
+            $assignedUserIds = $appraiser->assigned_user_ids;
+//            return $assignedUserIds;
+            foreach ($assignedUserIds as $assignedUserId) {
+                if (key($assignedUserId) == $employeeId) {
+                    $users[] = [key($assignedUserId)=>true];
+                } else {
+                    $users[] = [key($assignedUserId)=>false];
+                }
+            }
+            $appraiser->update(['assigned_user_ids' => $users]);
             return response()->json(['status'=>'success'], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
     }
 }
+

@@ -69,6 +69,13 @@ $router->get(
 );
 
 $router->get(
+    '/user-assign',
+    [
+        'uses' => 'ImportExcelController@setAssignedUserIds'
+    ]
+);
+
+$router->get(
     '/import-parameters',
     [
         'uses' => 'ImportExcelController@importParametersAction'
