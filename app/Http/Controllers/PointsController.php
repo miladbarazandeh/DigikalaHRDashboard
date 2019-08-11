@@ -62,7 +62,7 @@ public function setPointAction(Request $request)
                 );
                 $pointDB->save();
             }
-            return response()->json('OK', 200);
+            return response()->json(['status'=>'success'], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
