@@ -40,12 +40,15 @@ class PointsController extends Controller
             return response()->json($exception->getMessage(), 400);
         }
     }
-    public function setPointAction(Request $request)
+
+
+
+public function setPointAction(Request $request)
     {
         try {
             $query = json_decode($request->getContent(), true);
             $employeeId = $query['employeeId'];
-            $appraiserId = $query['appraiserId'];
+            $appraiserId = $request->auth->id;
             $points = $query['points'];
             foreach ($points as $parameterId=>$point)
             {

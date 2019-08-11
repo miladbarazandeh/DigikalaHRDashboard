@@ -8,11 +8,17 @@ use App\Parameters;
 use App\User;
 use App\Values;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\Request;
 
 class ImportExcelController extends Controller
 {
+    public function getUserTemplatePath(Request $request)
+    {
+        return response()->json(['url'=>url('csv/data.csv')]);
+    }
     public function importUsersAction(Request $request)
     {
         try {
