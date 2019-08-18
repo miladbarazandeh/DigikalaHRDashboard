@@ -52,7 +52,7 @@ class UsersController extends Controller
                     'name'=>$name,
                     'email'=>$email,
                     'role'=>$role,
-                    'formId'=>$formId,
+                    'form_id'=>$formId,
                     'password'=>Hash::make($password)
                 ]
             );
