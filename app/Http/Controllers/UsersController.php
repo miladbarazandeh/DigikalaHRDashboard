@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
