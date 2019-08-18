@@ -57,6 +57,7 @@ class UsersController extends Controller
                 ]
             );
             $user->save();
+            return response()->json(['message'=>'user added']);
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
         }
