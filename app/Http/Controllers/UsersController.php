@@ -22,7 +22,7 @@ class UsersController extends Controller
 
     public function resetPassword(Request $request)
     {
-//        try {
+        try {
             $userId = $request->auth->id;
             $user = User::find($userId);
             $query = json_decode($request->getContent(), true);
@@ -33,10 +33,33 @@ class UsersController extends Controller
             }
             $user->update(['password'=>Hash::make($newPassword)]);
             return response()->json(['message'=>'Password changed'], 200);
-//        } catch (\Exception $exception) {
-//            return response()->json($exception->getMessage(), 400);
-//        }
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
 
+    }
+
+    public function newUserAction(Request $request) {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $name = $query['name'];
+            $email = $query['email'];
+            $formId = $query['formId'];
+            $role = $query['role'];
+            $password = $query['password'];
+            $user = new User(
+                [
+                    'name'=>$name,
+                    'email'=>$email,
+                    'role'=>$role,
+                    'formId'=>$formId,
+                    'password'=>Hash::make($password)
+                ]
+            );
+            $user->save();
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
     }
 }
 
