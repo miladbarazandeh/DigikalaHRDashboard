@@ -78,7 +78,7 @@ public function setPointAction(Request $request)
             $assignedUserIds = $appraiser->assigned_user_ids;
 //            return $assignedUserIds;
             foreach ($assignedUserIds as $assignedUserId) {
-                if ($assignedUserId == true) {
+                if (current($assignedUserId) == true) {
                     continue;
                 }
                 if (key($assignedUserId) == $employeeId) {
