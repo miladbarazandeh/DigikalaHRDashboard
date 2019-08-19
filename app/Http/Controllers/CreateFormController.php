@@ -41,8 +41,8 @@ class CreateFormController extends Controller
             $form = Forms::find($formId);
 
             $form->update(['categories' => $categories]);
-            $form->update(['values' => json_encode($values)]);
-            $form->update(['parameters' => json_encode($parameters)]);
+            $form->update(['values' => $values]);
+            $form->update(['parameters' => $parameters]);
 
             return response()->json('Form Updated', 200);
         } catch (\Exception $exception) {
