@@ -178,7 +178,7 @@ class CreateFormController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $categoryId = $query['categoryId'];
-            $parameters = Parameters::where('value_id', $categoryId);
+            $parameters = Parameters::where('category_id', $categoryId);
             return response()->json($parameters);
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
