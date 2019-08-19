@@ -45,6 +45,9 @@ $router->group(['middleware' => 'jwt.admin.auth'],
     }
 );
 
+$router->get('get-values', function () {
+    return \App\Values::all();
+});
 
 
 
