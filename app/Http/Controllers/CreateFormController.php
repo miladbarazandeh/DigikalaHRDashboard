@@ -166,7 +166,7 @@ class CreateFormController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $valueId = $query['valueId'];
-            $categories = Categories::where('value_id', $valueId);
+            $categories = Categories::where('value_id', $valueId)->get();
             return response()->json($categories);
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
@@ -178,7 +178,7 @@ class CreateFormController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $categoryId = $query['categoryId'];
-            $parameters = Parameters::where('category_id', $categoryId);
+            $parameters = Parameters::where('category_id', $categoryId)->get();
             return response()->json($parameters);
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
