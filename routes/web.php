@@ -57,6 +57,43 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         });
 
         $router->get('get-categories', 'CreateFormController@getCategories');
+
+        $router->post(
+            '/set-values',
+            [
+                'uses' => 'CreateFormController@setValuesAction'
+            ]
+        );
+
+
+        $router->post(
+            '/set-categories',
+            [
+                'uses' => 'CreateFormController@setCategoriesAction'
+            ]
+        );
+
+        $router->post(
+            '/set-parameters',
+            [
+                'uses' => 'CreateFormController@setParametersAction'
+            ]
+        );
+
+        $router->post(
+            '/create-form',
+            [
+                'uses' => 'CreateFormController@createFormAction'
+            ]
+        );
+
+        $router->post(
+            '/set-form',
+            [
+                'uses' => 'CreateFormController@setFormAction'
+            ]
+        );
+
     }
 );
 
@@ -112,33 +149,3 @@ $router->get(
         'uses' => 'ImportExcelController@importValuesAction'
     ]
 );
-
-$router->post(
-    '/set-values',
-    [
-        'uses' => 'CreateFormController@setValuesAction'
-    ]
-);
-
-
-$router->post(
-    '/set-categories',
-    [
-        'uses' => 'CreateFormController@setCategoriesAction'
-    ]
-);
-
-$router->post(
-    '/set-parameters',
-    [
-        'uses' => 'CreateFormController@setParametersAction'
-    ]
-);
-
-$router->post(
-    '/create-form',
-    [
-        'uses' => 'CreateFormController@createFormAction'
-    ]
-);
-

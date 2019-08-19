@@ -21,14 +21,14 @@ class CreateFormController extends Controller
                 ['name'=>$name]
             );
             $form->save();
-            return response()->json($form->getAttribute('id'));
+            return response()->json(['formId'=>$form->getAttribute('id')]);
         } catch (\Exception $exception)
         {
             return response()->json($exception->getMessage(), 400);
         }
     }
 
-    public function setForm(Request $request)
+    public function setFormAction(Request $request)
     {
         try {
             $query = json_decode($request->getContent(), true);
@@ -185,6 +185,3 @@ class CreateFormController extends Controller
         }
     }
 }
-
-
-
