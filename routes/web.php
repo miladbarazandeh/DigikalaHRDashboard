@@ -50,13 +50,15 @@ $router->group(['middleware' => 'jwt.admin.auth'],
             return \App\Parameters::all();
         });
 
+        $router->get('get-parameters', 'CreateFormController@getParameters');
+
         $router->get('get-all-categories', function () {
             return \App\Categories::all();
         });
+
+        $router->get('get-categories', 'CreateFormController@getCategories');
     }
 );
-
-
 
 $router->group(['middleware' => 'jwt.auth'],
     function() use ($router) {

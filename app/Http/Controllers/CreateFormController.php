@@ -160,6 +160,31 @@ class CreateFormController extends Controller
             return response()->json($exception->getMessage(), 400);
         }
     }
+
+    public function getCategories(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $valueId = $query['valueId'];
+            $categories = Categories::where('value_id', $valueId);
+            return response()->json($categories);
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
+    }
+
+    public function getParameters(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $categoryId = $query['categoryId'];
+            $parameters = Parameters::where('value_id', $categoryId);
+            return response()->json($parameters);
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
+    }
 }
+
 
 
