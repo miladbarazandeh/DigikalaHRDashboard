@@ -6,11 +6,9 @@ namespace App\Http\Controllers;
 use App\Categories;
 use App\Forms;
 use App\Parameters;
-use App\User;
 use App\Values;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 class CreateFormController extends Controller
 {
@@ -94,7 +92,73 @@ class CreateFormController extends Controller
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
+    }
 
+    public function insertNewValue(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $title = $query['title'];
+            $value = new Values(
+                [
+                    'title'=>$title,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]
+            );
+
+            $value->save();
+            return response()->json(['message'=>'new value added']);
+
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
+
+    public function insertNewCategory(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $title = $query['title'];
+            $valueId = $query['valueId'];
+            $category = new Categories(
+                [
+                    'title'=>$title,
+                    'value_id'=>$valueId,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]
+            );
+
+            $category->save();
+            return response()->json(['message'=>'new category added']);
+
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
+
+    public function insertNewParameter(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $title = $query['title'];
+            $categoryId = $query['categoryId'];
+            $parameter = new Parameters(
+                [
+                    'title'=>$title,
+                    'category_id'=>$categoryId,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]
+            );
+
+            $parameter->save();
+            return response()->json(['message'=>'new parameter added']);
+
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
     }
 }
 
