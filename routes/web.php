@@ -40,7 +40,7 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         $router->post('new-user', 'UsersController@newUserAction');
         $router->post('edit-user', 'UsersController@editUserAction');
         $router->post('add-value', 'CreateFormController@insertNewValue');
-        $router->post('add-category', 'CreateFormController@insertNewCategoty');
+        $router->post('add-category', 'CreateFormController@insertNewCategory');
         $router->post('add-parameter', 'CreateFormController@insertNewParameter');
     }
 );
