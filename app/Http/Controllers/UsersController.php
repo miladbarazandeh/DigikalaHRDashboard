@@ -62,6 +62,31 @@ class UsersController extends Controller
             return response()->json(['message'=>$exception->getMessage()], 400);
         }
     }
+
+    public function editUserAction(Request $request) {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $userId = $query['userId'];
+            $name = $query['name'];
+            $email = $query['email'];
+            $formId = $query['formId'];
+            $role = $query['role'];
+            $assignedUserIds = $query['assignedUserIds'];
+            $user = User::find($userId);
+            $user->update(
+                [
+                    'name'=>$name,
+                    'email'=>$email,
+                    'role'=>$role,
+                    'form_id'=>$formId,
+                    'assigned_user_ids'=>$assignedUserIds
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
+    }
 }
 
 

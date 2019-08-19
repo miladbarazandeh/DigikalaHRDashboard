@@ -38,6 +38,7 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         $router->get('/users','UsersController@getAllUsers');
         $router->get('user-template', 'ImportExcelController@getUserTemplatePath');
         $router->post('new-user', 'UsersController@newUserAction');
+        $router->post('edit-user', 'UsersController@editUserAction');
     }
 );
 
@@ -125,5 +126,4 @@ $router->post(
         'uses' => 'CreateFormController@createFormAction'
     ]
 );
-
 
