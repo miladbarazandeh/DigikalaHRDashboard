@@ -42,16 +42,19 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         $router->post('add-value', 'CreateFormController@insertNewValue');
         $router->post('add-category', 'CreateFormController@insertNewCategory');
         $router->post('add-parameter', 'CreateFormController@insertNewParameter');
+        $router->get('get-values', function () {
+            return \App\Values::all();
+        });
+
+        $router->get('get-all-parameters', function () {
+            return \App\Parameters::all();
+        });
+
+        $router->get('get-all-categories', function () {
+            return \App\Categories::all();
+        });
     }
 );
-
-$router->get('get-values', function () {
-    return \App\Values::all();
-});
-
-$router->get('get-parameters', function () {
-    return \App\Parameters::all();
-});
 
 
 
