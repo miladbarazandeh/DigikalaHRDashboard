@@ -73,13 +73,17 @@ class UsersController extends Controller
             $role = $query['role'];
             $assignedUserIds = $query['assignedUserIds'];
             $user = User::find($userId);
+            $userIds = [];
+            foreach ($assignedUserIds as $assignedUserId) {
+                $userIds[] = [$assignedUserId=>false];
+            }
             $user->update(
                 [
                     'name'=>$name,
                     'email'=>$email,
                     'role'=>$role,
                     'form_id'=>$formId,
-                    'assigned_user_ids'=>$assignedUserIds
+                    'assigned_user_ids'=>$userIds
                 ]
             );
 
