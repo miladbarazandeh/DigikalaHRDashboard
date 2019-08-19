@@ -86,6 +86,7 @@ class UsersController extends Controller
                     'assigned_user_ids'=>$userIds
                 ]
             );
+            return response()->json(['message'=>'User updated.'], 200);
 
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
