@@ -49,6 +49,10 @@ $router->get('get-values', function () {
     return \App\Values::all();
 });
 
+$router->get('get-parameters', function () {
+    return \App\Parameters::all();
+});
+
 
 
 $router->group(['middleware' => 'jwt.auth'],
