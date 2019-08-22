@@ -12,9 +12,21 @@ class UsersController extends Controller
     public function getAllUsers(Request $request)
     {
         try {
-            $users = User::all(['id', 'email', 'name']);
+            $users = User::all(['id', 'email', 'name', 'assigned_user_ids', 'form_id']);
 
             return response()->json($users, 200);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
+
+    public function getUser(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $userId = $query['userId'];
+            $user = User::find($userId);
+            return response()->json($user, 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
