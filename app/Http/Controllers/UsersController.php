@@ -59,13 +59,21 @@ class UsersController extends Controller
             $formId = $query['formId'];
             $role = $query['role'];
             $password = $query['password'];
+            $assignedUserIds = isset($query['assignedUserIds'])?$query['assignedUserIds']:null;
+            $userIds = [];
+            if($assignedUserIds) {
+                foreach ($assignedUserIds as $assignedUserId) {
+                    $userIds[] = [$assignedUserId=>false];
+                }
+            }
             $user = new User(
                 [
                     'name'=>$name,
                     'email'=>$email,
                     'role'=>$role,
                     'form_id'=>$formId,
-                    'password'=>Hash::make($password)
+                    'password'=>Hash::make($password),
+                    'assigned_user_ids'=>$userIds
                 ]
             );
             $user->save();
@@ -105,7 +113,3 @@ class UsersController extends Controller
         }
     }
 }
-
-
-
-
