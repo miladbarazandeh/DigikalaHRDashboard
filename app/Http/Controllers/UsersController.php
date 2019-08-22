@@ -38,13 +38,21 @@ class UsersController extends Controller
             $userId = $request->auth->id;
             $user = User::find($userId);
             $query = json_decode($request->getContent(), true);
-            $newPassword = $query['newPassword'];
-            $confirmPassword = $query['confirmPassword'];
-            if ($newPassword != $confirmPassword) {
-                return response()->json(['message'=>'confirm password does not match'], 400);
+            $oldPassword = $query['password'];
+
+            if (Hash::check($oldPassword, $user->password)) {
+                $newPassword = $query['newPassword'];
+                $confirmPassword = $query['confirmPassword'];
+                if ($newPassword != $confirmPassword) {
+                    return response()->json(['message'=>'confirm password does not match'], 400);
+                }
+                $user->update(['password'=>Hash::make($newPassword)]);
+                return response()->json(['message'=>'Password changed'], 200);
+            } else {
+                return response()->json([
+                    'error' => 'password is not correct.'
+                ], 400);
             }
-            $user->update(['password'=>Hash::make($newPassword)]);
-            return response()->json(['message'=>'Password changed'], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
