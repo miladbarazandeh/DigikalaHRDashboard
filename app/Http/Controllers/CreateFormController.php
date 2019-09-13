@@ -12,20 +12,48 @@ use Illuminate\Http\Request;
 
 class CreateFormController extends Controller
 {
+
+    public function getAll()
+    {
+        try {
+            $values = Values::all();
+            $params = Parameters::all();
+            $categories = Categories::all();
+
+            return response()->json(
+                [
+                    'values' => $values,
+                    'categories' => $categories,
+                    'parameter' => $params
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
+
+    }
     public function createFormAction(Request $request)
     {
         try {
             $query = json_decode($request->getContent(), true);
             $name = $query['name'];
+            $values = $query['values'];
+            $categories = $query['categories'];
+            $parameters = $query['parameters'];
             $form = new Forms(
-                ['name'=>$name]
+                [
+                    'name'=>$name,
+                    'values'=>$values,
+                    'categories'=>$categories,
+                    'parameters'=>$parameters
+                ]
             );
             $form->save();
-            return response()->json(['formId'=>$form->getAttribute('id')]);
-        } catch (\Exception $exception)
-        {
+            return response()->json(['message'=>'فرم ایجاد شد'], 200);
+        } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
+
     }
 
     public function setFormAction(Request $request)

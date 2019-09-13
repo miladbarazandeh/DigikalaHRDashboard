@@ -33,6 +33,7 @@ $router->post(
 //    }
 //);
 
+
 $router->group(['middleware' => 'jwt.admin.auth'],
     function() use ($router) {
         $router->get('/users','UsersController@getAllUsers');
@@ -43,6 +44,9 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         $router->post('add-value', 'CreateFormController@insertNewValue');
         $router->post('add-category', 'CreateFormController@insertNewCategory');
         $router->post('add-parameter', 'CreateFormController@insertNewParameter');
+
+        $router->get('get-all','CreateFormController@getAll');
+
         $router->get('get-forms', function () {
             return \App\Forms::all();
         });
@@ -54,6 +58,7 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         $router->get('get-all-parameters', function () {
             return \App\Parameters::all();
         });
+
 
         $router->get('get-parameters', 'CreateFormController@getParameters');
 
