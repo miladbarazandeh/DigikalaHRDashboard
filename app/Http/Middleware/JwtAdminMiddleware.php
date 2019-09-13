@@ -22,7 +22,7 @@ class JwtAdminMiddleware
         } catch(ExpiredException $e) {
             return response()->json([
                 'error' => 'Provided token is expired.'
-            ], 400);
+            ], 401);
         } catch(Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),

@@ -28,7 +28,7 @@ class JwtMiddleware
             return response()->json([
                 'message' => $e->getMessage(),
                 'error' => 'An error while decoding token.'
-            ], 401);
+            ], 400);
         }
         $user = User::find($credentials->sub);
         // Now let's put the user in the request class so that you can grab it from there
@@ -37,3 +37,4 @@ class JwtMiddleware
         return $next($request);
     }
 }
+
