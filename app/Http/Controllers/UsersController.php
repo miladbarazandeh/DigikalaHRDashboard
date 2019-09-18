@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Relation;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class UsersController extends Controller
     public function getAllUsers(Request $request)
     {
         try {
-            $users = User::all(['id', 'email', 'name', 'assigned_user_ids', 'form_id']);
+            $users = User::all(['id', 'email', 'name', 'form_id']);
 
             return response()->json($users, 200);
         } catch (\Exception $exception) {
@@ -25,7 +26,10 @@ class UsersController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $userId = $query['userId'];
+            $cycle = $query['cycle'];
             $user = User::find($userId);
+            $assignedUsers = Relation::where('appraiser_id', $userId)->where('cycle', $cycle);
+            $user['assigned_users'] = $assignedUsers;
             return response()->json($user, 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);

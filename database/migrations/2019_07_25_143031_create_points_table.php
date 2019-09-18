@@ -15,8 +15,7 @@ class CreatePointsTable extends Migration
     {
         Schema::create('points', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('employee_id');
-            $table->integer('appraiser_id');
+            $table->integer('relation_id');
             $table->integer('parameter_id');
             $table->integer('point');
             $table->timestamps();

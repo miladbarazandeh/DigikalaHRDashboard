@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Forms;
 use App\Parameters;
 use App\Points;
+use App\Relation;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -15,22 +16,21 @@ class PointsController extends Controller
     {
         try {
             $user = $request->auth;
-            $assignedUserIds = $user->getAttribute('assigned_user_ids');
+            $assignedUserIds = Relation::where('appraiser_id', $user->id)->get('appraisal_id');
+            $assignedUsers = User::whereIn('id', $assignedUserIds)->get(['id', 'name', 'email', 'status']);
             $employees = [];
 //            return key($assignedUserIds[2]);
-            foreach ($assignedUserIds as $assignedUserId) {
-                $employee = User::where('id', key($assignedUserId) )->get()->first();
+            foreach ($assignedUsers as $assignedUser) {
 //                return $employee->name;
                 $employees[] = [
-                    'id' => $employee->id,
-                    'name'=>$employee->name,
-                    'email'=>$employee->email,
-                    'status'=>current($assignedUserId)
+                    'id' => $assignedUser->id,
+                    'name'=>$assignedUser->name,
+                    'email'=>$assignedUser->email,
+                    'status'=> $assignedUser->evaluated
                 ];
             }
-            return $employees;
-            $assignedUsers = User::whereIn('id', $assignedUserIds)->get(['id', 'name', 'email']);
-            return response()->json($assignedUsers);
+
+            return response()->json($employees);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
@@ -44,15 +44,14 @@ class PointsController extends Controller
             $user = User::where('id', '=', $employeeId)->first();
             $form = Forms::where('id', '=', $user->form_id)->first();
             $params = [];
-            foreach ($form['parameters'] as $id=>$weight){
-                $params[] = Parameters::find($id);
+            foreach ($form['parameters'] as $parameter){
+                $params[] = Parameters::find($parameter['id']);
             }
             return response()->json($params);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
     }
-
 
 
 public function setPointAction(Request $request)
@@ -62,33 +61,23 @@ public function setPointAction(Request $request)
             $employeeId = $query['employeeId'];
             $appraiserId = $request->auth->id;
             $points = $query['points'];
+
+            $relation = Relation::where('appraisal_id', $employeeId)->where('appraiser_id', $appraiserId)->get();
+
             foreach ($points as $parameterId=>$point)
             {
                 $pointDB = new Points(
                     [
                         'employee_id'=>$employeeId,
-                        'appraiser_id'=>$appraiserId,
                         'parameter_id'=>$parameterId,
+                        'relation_id' =>$relation->id,
                         'point'=>$point
                     ]
                 );
                 $pointDB->save();
             }
-            $appraiser = User::where('id', '=', $appraiserId)->first();
-            $assignedUserIds = $appraiser->assigned_user_ids;
-//            return $assignedUserIds;
-            foreach ($assignedUserIds as $assignedUserId) {
-                if (current($assignedUserId) == true) {
-                    $users[] = [key($assignedUserId)=>true];
-                    continue;
-                }
-                if (key($assignedUserId) == $employeeId) {
-                    $users[] = [key($assignedUserId)=>true];
-                } else {
-                    $users[] = [key($assignedUserId)=>false];
-                }
-            }
-            $appraiser->update(['assigned_user_ids' => $users]);
+
+            $relation->update(['evaluated' => true]);
             return response()->json(['status'=>'success'], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
