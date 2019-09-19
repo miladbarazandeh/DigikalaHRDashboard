@@ -25,7 +25,7 @@ class CardsController extends Controller
             $id = $query['card_id'];
             $show = $query['show'];
 
-            return $title;
+            return ['1'=>$request->get('title'), '2'=>$request->request->get('title'), '3'=>$request];
 
             if(!in_array($id, [0, 1, 2])) {
                 return response()->json(['message'=>'آیدی درست نیست.'], 400);
