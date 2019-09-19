@@ -18,18 +18,17 @@ class IndexController extends Controller
             $relationsAsAppraiser = Relation::where('appraiser_id', $user->id)->get();
             $relationsAsAppraisal = Relation::where('appraisal_id', $user->id)->get();
 
-            return $relationsAsAppraisal;
             $cyclesAsAppraiserIds = [];
             $cyclesAsAppraisalIds = [];
 
             foreach ($relationsAsAppraisal as $item) {
-                if(!in_array($item->id, $cyclesAsAppraisalIds)) {
+                if(!in_array($item->cycle, $cyclesAsAppraisalIds)) {
                     $cyclesAsAppraisal[] = $item->relation_id;
                 }
             }
 
             foreach ($relationsAsAppraiser as $item) {
-                if(!in_array($item->id, $cyclesAsAppraiserIds)) {
+                if(!in_array($item->cycle, $cyclesAsAppraiserIds)) {
                     $cyclesAsAppraiser[] = $item->relation_id;
                 }
             }
