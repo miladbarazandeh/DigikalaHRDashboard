@@ -31,7 +31,7 @@ class CardsController extends Controller
 
             $card = Cards::find($id);
 
-            if (!$card->get()) {
+            if (!$card) {
                 $newCard = new Cards(
                     [
                         'id' => $id,
