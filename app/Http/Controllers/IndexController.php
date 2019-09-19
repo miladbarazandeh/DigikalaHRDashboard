@@ -34,7 +34,7 @@ class IndexController extends Controller
             }
 
 
-            $appraiserCycles = Cycle::WhereIn('id', $cyclesAsAppraiserIds)->get();
+            $appraiserCycles = Cycle::WhereIn('id', $cyclesAsAppraiserIds)->get(['id', 'name', 'active']);
 //            $appraisalCycles = Cycle::WhereIn('id', $cyclesAsAppraisalIds)->get();
 
             $cards = Cards::all();
