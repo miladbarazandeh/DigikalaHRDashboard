@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CardsController extends Controller
 {
     public function getAllCards() {
-        $cards = Cards::orderBy('id', 'desc')->where('active', true)->take(3)->get();
+        $cards = Cards::where('active', true)->take(3)->get(['title', 'url', 'text']);
         return response()->json($cards);
     }
 
@@ -25,7 +25,10 @@ class CardsController extends Controller
             $show = $request->get('show');
 
 
-            if(!in_array($id, [0, 1, 2])) {
+            return $show;
+
+
+            if(!in_array($id, [1, 2, 3])) {
                 return response()->json(['message'=>'آیدی درست نیست.'], 400);
             }
 
