@@ -46,7 +46,7 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         $router->post('add-parameter', 'CreateFormController@insertNewParameter');
 
         $router->get('get-cards', 'CardsController@getAllCards');
-        $router->pst('sudmit-card', 'CardsController@submitCard');
+        $router->post('sudmit-card', 'CardsController@submitCard');
 
         $router->get('get-all','CreateFormController@getAll');
 
