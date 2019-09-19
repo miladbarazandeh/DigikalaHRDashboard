@@ -29,7 +29,7 @@ class CardsController extends Controller
                 return response()->json(['message'=>'آیدی درست نیست.'], 400);
             }
 
-            $card = Cards::where('id', $id)->get();
+            $card = Cards::find($id);
             if (!$card) {
                 $newCard = new Cards(
                     [
