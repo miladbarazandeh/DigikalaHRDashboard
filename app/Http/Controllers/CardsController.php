@@ -25,7 +25,6 @@ class CardsController extends Controller
             $show = $request->get('show');
 
 
-            return $show;
 
 
             if(!in_array($id, [1, 2, 3])) {
@@ -41,7 +40,7 @@ class CardsController extends Controller
                         'title'=>$title,
                         'text' => $desc,
                         'url' => $url,
-                        'active'=>$show
+                        'active'=>$show? 1:0
                     ]
                 );
 
@@ -52,7 +51,7 @@ class CardsController extends Controller
                         'title'=>$title,
                         'text' => $desc,
                         'url' => $url,
-                        'active'=>$show
+                        'active'=>$show? 1:0
                     ]
                 );
             }
