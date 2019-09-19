@@ -17,15 +17,13 @@ class CardsController extends Controller
     public function submitCard(Request $request) {
 
         try{
-            $query = json_decode($request->getContent(), true);
-            $title = $query['title'];
-            $desc = $query['description'];
-            $file = $query['file'];
-            $url = $query['url'];
-            $id = $query['card_id'];
-            $show = $query['show'];
+            $title = $request->get('title');
+            $desc = $request->get('description');
+            $file = $request->get('file');
+            $url = $request->get('url');
+            $id = $request->get('card_id');
+            $show = $request->get('show');
 
-            return ['1'=>$request->get('title'), '2'=>$request->request->get('title'), '3'=>$request];
 
             if(!in_array($id, [0, 1, 2])) {
                 return response()->json(['message'=>'آیدی درست نیست.'], 400);
