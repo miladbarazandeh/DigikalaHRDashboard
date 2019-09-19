@@ -35,14 +35,13 @@ class IndexController extends Controller
 
 
             $appraiserCycles = Cycle::WhereIn('id', $cyclesAsAppraiserIds)->get();
-            $appraisalCycles = Cycle::WhereIn('id', $cyclesAsAppraisalIds)->get();
+//            $appraisalCycles = Cycle::WhereIn('id', $cyclesAsAppraisalIds)->get();
 
             $cards = Cards::all();
 
             return response()->json(
                 [
-                    'appraiserCycles'=>$appraiserCycles,
-                    'appraisalCycles'=>$appraisalCycles,
+                    'cycles'=>$appraiserCycles,
                     'cards'=>$cards,
                     'kpi'=>36
                 ]
