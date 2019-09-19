@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Cards;
+use App\Cycle;
 use App\Forms;
 use App\Parameters;
 use App\Points;
@@ -12,25 +14,56 @@ use Illuminate\Http\Request;
 
 class PointsController extends Controller
 {
-    public function getList(Request $request)
+    public function getAppraiserList(Request $request)
     {
         try {
             $user = $request->auth;
-            $assignedUserIds = Relation::where('appraiser_id', $user->id)->get('appraisal_id');
-            $assignedUsers = User::whereIn('id', $assignedUserIds)->get(['id', 'name', 'email', 'status']);
-            $employees = [];
-//            return key($assignedUserIds[2]);
-            foreach ($assignedUsers as $assignedUser) {
-//                return $employee->name;
-                $employees[] = [
-                    'id' => $assignedUser->id,
-                    'name'=>$assignedUser->name,
-                    'email'=>$assignedUser->email,
-                    'status'=> $assignedUser->evaluated
-                ];
+            $relationsAsAppraiser = Relation::where('appraiser_id', $user->id)->get();
+
+            $cyclesAsAppraiserIds = [];
+
+
+            foreach ($relationsAsAppraiser as $item) {
+                if(!in_array($item->cycle, $cyclesAsAppraiserIds)) {
+                    $cyclesAsAppraiserIds[] = $item->cycle;
+                }
             }
 
-            return response()->json($employees);
+
+            $appraiserCycles = Cycle::WhereIn('id', $cyclesAsAppraiserIds)->get(['id', 'title', 'active']);
+
+            $cycleRelationList = [];
+            $relations = [];
+            foreach ($appraiserCycles as $appraiserCycle) {
+                $cycleRelations = Relation::where('appraiser_id', $user->id)->where('cycle', $appraiserCycle->id)->get();
+                foreach ($cycleRelations as $cycleRelation) {
+                    $employee = User::find($cycleRelation->appraisal_id);
+                    $formId = $employee->form_id;
+                    $form = Forms::where('id', $formId)->get();
+                    $parameters = $form->parameters;
+                    $questions = [];
+                    foreach ($parameters as $parameter) {
+                        $param = Parameters::where('id', $parameter['id'])->get();
+                        $questions[] = $param->title;
+                    }
+                    $relations[] = [
+                        'employee'=> [
+                            'name'=>$employee->name,
+                            'email'=>$employee->email
+                        ],
+                        'question'=>$questions
+                    ];
+
+                }
+
+                $cycleRelationList[] = [
+                    'cycle' => $appraiserCycle,
+                    'relations'=>$relations
+                ];
+
+            }
+
+            return response()->json($cycleRelationList);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
