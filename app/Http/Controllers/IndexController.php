@@ -23,13 +23,13 @@ class IndexController extends Controller
 
             foreach ($relationsAsAppraisal as $item) {
                 if(!in_array($item->cycle, $cyclesAsAppraisalIds)) {
-                    $cyclesAsAppraisalIds[] = $item->relation_id;
+                    $cyclesAsAppraisalIds[] = $item->cycle;
                 }
             }
 
             foreach ($relationsAsAppraiser as $item) {
                 if(!in_array($item->cycle, $cyclesAsAppraiserIds)) {
-                    $cyclesAsAppraiserIds[] = $item->relation_id;
+                    $cyclesAsAppraiserIds[] = $item->cycle;
                 }
             }
 
