@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CardsController extends Controller
 {
     public function getAllCards() {
-        $cards = Cards::where('active', true)->take(3)->get(['title', 'url', 'text']);
+        $cards = Cards::where('active', true)->take(3)->get(['title', 'url', 'text', 'active']);
         return response()->json($cards);
     }
 
