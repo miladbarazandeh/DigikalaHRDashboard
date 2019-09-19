@@ -18,6 +18,7 @@ class IndexController extends Controller
             $relationsAsAppraiser = Relation::where('appraiser_id', $user->id)->get();
             $relationsAsAppraisal = Relation::where('appraisal_id', $user->id)->get();
 
+            return $relationsAsAppraisal;
             $cyclesAsAppraiserIds = [];
             $cyclesAsAppraisalIds = [];
 
