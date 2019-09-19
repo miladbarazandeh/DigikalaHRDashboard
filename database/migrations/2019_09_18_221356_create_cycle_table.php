@@ -15,6 +15,7 @@ class CreateCycleTable extends Migration
     {
         Schema::create('cycle', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

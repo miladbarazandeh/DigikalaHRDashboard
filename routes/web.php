@@ -126,6 +126,8 @@ $router->group(['middleware' => 'jwt.auth'],
                 'uses' => 'PointsController@setPointAction'
             ]
         );
+
+        $router->get('/home','IndexController@getHome');
     }
 );
 
