@@ -15,7 +15,48 @@ class CardsController extends Controller
     }
 
     public function submitCard(Request $request) {
-        $query = json_decode($request->getContent(), true);
-        return response()->json($query);
+
+        try{
+            $query = json_decode($request->getContent(), true);
+            $title = $query['title'];
+            $desc = $query['description'];
+            $file = $query['file'];
+            $url = $query['url'];
+            $id = $query['card_id'];
+            $show = $query['show'];
+
+            if(!in_array($id, [1, 2, 3])) {
+                return response()->json(['message'=>'آیدی درست نیست.'], 400);
+            }
+
+            $card = Cards::where('id', $id)->get();
+            if (!$card) {
+                $newCard = new Cards(
+                    [
+                        'id' => $id,
+                        'title'=>$title,
+                        'text' => $desc,
+                        'url' => $url,
+                        'active'=>$show
+                    ]
+                );
+
+                $newCard->save();
+            } else {
+                $card->update(
+                    [
+                        'title'=>$title,
+                        'text' => $desc,
+                        'url' => $url,
+                        'active'=>$show
+                    ]
+                );
+            }
+
+            return response()->json(['message'=>'کارت ذخیره شد.']);
+
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
     }
 }
