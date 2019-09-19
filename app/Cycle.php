@@ -8,4 +8,5 @@ class Cycle extends Model
 {
     protected $guarded = [];
 
+    protected $table = 'cycle';
 }
