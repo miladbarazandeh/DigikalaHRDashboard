@@ -23,15 +23,16 @@ class IndexController extends Controller
 
             foreach ($relationsAsAppraisal as $item) {
                 if(!in_array($item->cycle, $cyclesAsAppraisalIds)) {
-                    $cyclesAsAppraisal[] = $item->relation_id;
+                    $cyclesAsAppraisalIds[] = $item->relation_id;
                 }
             }
 
             foreach ($relationsAsAppraiser as $item) {
                 if(!in_array($item->cycle, $cyclesAsAppraiserIds)) {
-                    $cyclesAsAppraiser[] = $item->relation_id;
+                    $cyclesAsAppraiserIds[] = $item->relation_id;
                 }
             }
+
 
             $appraiserCycles = Cycle::WhereIn('id', $cyclesAsAppraiserIds)->get();
             $appraisalCycles = Cycle::WhereIn('id', $cyclesAsAppraisalIds)->get();
