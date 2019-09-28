@@ -113,6 +113,7 @@ $router->group(['middleware' => 'jwt.admin.auth'],
 $router->group(['middleware' => 'jwt.auth'],
     function() use ($router) {
         $router->get('/get-appraiser-list','PointsController@getAppraiserList');
+        $router->get('/get-appraisal-list','PointsController@getAppraisalList');
         $router->post('password-reset', 'UsersController@resetPassword');
         $router->post(
             '/get-form',
