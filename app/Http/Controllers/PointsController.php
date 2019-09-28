@@ -40,6 +40,8 @@ class PointsController extends Controller
                     $employee = User::find($cycleRelation->appraisal_id);
                     $formId = $employee->form_id;
                     $form = Forms::where('id', $formId)->get();
+
+                    return $form;
                     $parameters = $form->parameters;
                     $questions = [];
                     foreach ($parameters as $parameter) {
@@ -117,3 +119,5 @@ public function setPointAction(Request $request)
         }
     }
 }
+
+
