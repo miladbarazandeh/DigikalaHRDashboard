@@ -44,7 +44,7 @@ class PointsController extends Controller
                     $parameters = $form['parameters'];
                     $questions = [];
                     foreach ($parameters as $parameter) {
-                        $param = Parameters::where('id', $parameter['id'])->get();
+                        $param = Parameters::find($parameter['id']);
                         $questions[] = $param->title;
                     }
                     $relations[] = [
