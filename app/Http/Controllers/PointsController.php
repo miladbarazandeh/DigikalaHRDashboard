@@ -106,7 +106,11 @@ class PointsController extends Controller
                     $questions = [];
                     foreach ($parameters as $parameter) {
                         $param = Parameters::find($parameter['id']);
-                        $questions[] = $param->title;
+                        $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
+                        $questions[] = [
+                            'question'=>$param->title,
+                            'point'=> $point?$point->point:null
+                        ];
                     }
                     $relations[] = [
                         'employee'=> [
