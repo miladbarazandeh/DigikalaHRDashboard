@@ -20,7 +20,6 @@ class CreateRelationsTable extends Migration
             $table->integer('appraisal_id');
             $table->double('weight');
             $table->enum('type', ['lead', 'team']);
-            $table->integer('form_id');
             $table->boolean('evaluated')->default(false);
             $table->timestamps();
         });
