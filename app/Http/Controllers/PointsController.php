@@ -41,7 +41,6 @@ class PointsController extends Controller
                     $formId = $employee->form_id;
                     $form = Forms::find($formId);
 
-                    return $form;
                     $parameters = $form['parameters'];
                     $questions = [];
                     foreach ($parameters as $parameter) {
