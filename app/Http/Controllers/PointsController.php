@@ -39,7 +39,7 @@ class PointsController extends Controller
                 foreach ($cycleRelations as $cycleRelation) {
                     $employee = User::find($cycleRelation->appraisal_id);
                     $formId = $employee->form_id;
-                    $form = Forms::where('id', $formId)->get();
+                    $form = Forms::find($formId);
 
                     return $form;
                     $parameters = $form['parameters'];
