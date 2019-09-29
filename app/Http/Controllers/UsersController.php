@@ -28,7 +28,7 @@ class UsersController extends Controller
             $userId = $request->get('userId');
 //            $cycle = $query['cycle'];
             $user = User::find($userId);
-            $assignedUsers = Relation::where('appraisal_id', $userId);
+            $assignedUsers = Relation::where('appraisal_id', $userId)->get();
             $user['assigned_users'] = $assignedUsers;
             return response()->json($user, 200);
         } catch (\Exception $exception) {
