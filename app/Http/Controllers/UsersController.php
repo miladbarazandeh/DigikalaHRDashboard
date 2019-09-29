@@ -32,6 +32,7 @@ class UsersController extends Controller
                 'id' =>$userId,
                 'name'=>$user->name,
                 'email'=>$user->email,
+                'role'=>$user->role
 
             ];
             $assignedUsers = Relation::where('appraisal_id', $userId)->get();
@@ -45,8 +46,10 @@ class UsersController extends Controller
                     'weight'=>$assignedUser->weight,
                     'type'=>$assignedUser->type
                 ];
+                $formId= $assignedUser->form_id;
             }
             $result['assigned_users'] = $employees;
+            $result['form_id'] = $formId;
             return response()->json($result, 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
