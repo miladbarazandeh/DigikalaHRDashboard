@@ -36,6 +36,26 @@ class UsersController extends Controller
         }
     }
 
+    public function managementAction(Request $request) {
+
+        try {
+            $allForms = \App\Forms::all();
+            $forms = [];
+
+            foreach ($allForms as $allForm) {
+                $forms[] = ['id' => $allForm['id'], 'name'=> $allForm['name']];
+            }
+
+            $users = User::all(['id', 'email', 'name']);
+
+            return response()->json(['users'=>$users, 'forms'=>$forms]);
+
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+
+    }
+
     public function resetPassword(Request $request)
     {
         try {
