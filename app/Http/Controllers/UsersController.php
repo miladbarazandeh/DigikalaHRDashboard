@@ -47,7 +47,7 @@ class UsersController extends Controller
                 ];
             }
             $result['assigned_users'] = $employees;
-            return response()->json($user, 200);
+            return response()->json($result, 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
