@@ -51,7 +51,13 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         $router->get('get-all','CreateFormController@getAll');
 
         $router->get('get-forms', function () {
-            return \App\Forms::all();
+            $allForms = \App\Forms::all();
+            $forms = [];
+
+            foreach ($allForms as $allForm) {
+                $forms[] = ['id' => $allForm['id'], 'name'=> $allForm['name']];
+            }
+            return $forms;
         });
 
         $router->get('get-values', function () {
