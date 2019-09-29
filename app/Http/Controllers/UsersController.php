@@ -13,7 +13,7 @@ class UsersController extends Controller
     public function getAllUsers(Request $request)
     {
         try {
-            $users = User::all(['id', 'email', 'name', 'form_id']);
+            $users = User::all(['id', 'email', 'name']);
 
             return response()->json($users, 200);
         } catch (\Exception $exception) {
@@ -28,7 +28,7 @@ class UsersController extends Controller
             $userId = $query['userId'];
             $cycle = $query['cycle'];
             $user = User::find($userId);
-            $assignedUsers = Relation::where('appraiser_id', $userId)->where('cycle', $cycle);
+            $assignedUsers = Relation::where('appraisal_id', $userId)->where('cycle', $cycle);
             $user['assigned_users'] = $assignedUsers;
             return response()->json($user, 200);
         } catch (\Exception $exception) {
@@ -71,24 +71,28 @@ class UsersController extends Controller
             $formId = $query['formId'];
             $role = $query['role'];
             $password = $query['password'];
-            $assignedUserIds = isset($query['assignedUserIds'])?$query['assignedUserIds']:null;
-            $userIds = [];
-            if($assignedUserIds) {
-                foreach ($assignedUserIds as $assignedUserId) {
-                    $userIds[] = [$assignedUserId=>false];
-                }
-            }
+            $assignedUsers = isset($query['assignedUsers'])?$query['assignedUsers']:null;
             $user = new User(
                 [
                     'name'=>$name,
                     'email'=>$email,
                     'role'=>$role,
-                    'form_id'=>$formId,
-                    'password'=>Hash::make($password),
-                    'assigned_user_ids'=>$userIds
+                    'password'=>Hash::make($password)
                 ]
             );
             $user->save();
+
+            foreach ($assignedUsers as $assignedUser) {
+                $relation = new Relation(
+                    [
+                        'appraiser_id'=>$assignedUser['id'],
+                        'appraisal_id'=>$user->id,
+                        'form_id'=>$formId,
+                        'weight'=>$assignedUser['weight']
+                    ]
+                );
+                $relation->save();
+            }
             return response()->json(['message'=>'user added']);
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
