@@ -115,7 +115,7 @@ $router->group(['middleware' => 'jwt.auth'],
         $router->get('/get-appraiser-list','PointsController@getAppraiserList');
         $router->get('/get-appraisal-list','PointsController@getAppraisalList');
         $router->post('password-reset', 'UsersController@resetPassword');
-        $router->post(
+        $router->get(
             '/get-form',
             [
                 'uses' => 'PointsController@getFormAction'
