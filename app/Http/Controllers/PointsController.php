@@ -139,14 +139,11 @@ class PointsController extends Controller
     {
         try {
             $query = json_decode($request->getContent(), true);
-            $employeeId = $query['employeeId'];
-            $user = User::where('id', '=', $employeeId)->first();
-            $form = Forms::where('id', '=', $user->form_id)->first();
-            $params = [];
-            foreach ($form['parameters'] as $parameter){
-                $params[] = Parameters::find($parameter['id']);
-            }
-            return response()->json($params);
+            $formId = $query['formId'];
+
+            $form = Forms::find($formId);
+
+            return response()->json($form);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
