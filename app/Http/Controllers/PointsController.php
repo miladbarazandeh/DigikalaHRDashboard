@@ -162,6 +162,10 @@ public function setPointAction(Request $request)
             $appraiserId = $request->auth->id;
             $point = $query['point'];
 
+            if (($point < 1) && ($point > 10)) {
+                throw new \Exception('امتیاز وارد شده صحیح نیست.');
+            }
+
             $relation = Relation::where('appraisal_id', $employeeId)->where('appraiser_id', $appraiserId)->first();
             $cycleId = $relation->cycle;
             $cycle = Cycle::find($cycleId);
