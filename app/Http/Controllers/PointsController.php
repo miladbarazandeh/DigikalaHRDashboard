@@ -178,6 +178,8 @@ public function setPointAction(Request $request)
                 throw new \Exception('Relation Not found');
             }
 
+            return $relation;
+
             $pointEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameterId);
             if(!$pointEntity->get()) {
                 $pointDB = new Points(
