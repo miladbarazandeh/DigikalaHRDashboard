@@ -220,7 +220,7 @@ public function setPointAction(Request $request)
             $totalPoint = 0;
             foreach ($parameters as $parameter) {
                 $point = $pointsEntity->where('parameter_id', $parameter['id'])->first();
-                $parameterPoint = $point * $parameter['weight'];
+                $parameterPoint = $point->point * $parameter['weight'];
                 $categoryId = $parameter['categoryId'];
                 foreach ($categories as $category) {
                     if ($category['id'] == $categoryId) {
