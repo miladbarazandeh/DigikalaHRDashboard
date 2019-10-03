@@ -220,7 +220,6 @@ public function setPointAction(Request $request)
 
         $relationWeights = 0;
         $finalPoint = 0;
-        $ppp =[];
         foreach ($relations as $relation) {
             $relationWeight = $relation->weight;
 //            if (!$pointsEntity) {
@@ -236,12 +235,10 @@ public function setPointAction(Request $request)
             foreach ($parameters as $parameter) {
                 $pointsEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameter['id'])->first();
                 $parameterPoint = $pointsEntity->point * $parameter['weight'];
-                $ppp[$relation->id][$parameter['id']]['p'] = $parameterPoint;
                 $categoryId = $parameter['categoryId'];
                 foreach ($categories as $category) {
                     if ($category['id'] == $categoryId) {
                        $categoryPoint = $parameterPoint * $category['weight'];
-                        $ppp[$relation->id][$parameter['id']]['c'] = $categoryPoint;
                         $valueId = $category['valueId'];
                        break;
                     }
@@ -249,7 +246,6 @@ public function setPointAction(Request $request)
                 foreach ($values as $value) {
                     if ($value['id'] == $valueId) {
                         $valuePoint = $categoryPoint * $value['weight'];
-                        $ppp[$relation->id][$parameter['id']]['v'] = $valuePoint;
                         $totalPoint += $valuePoint;
                         break;
                     }
@@ -259,10 +255,8 @@ public function setPointAction(Request $request)
             $relationPoint = $totalPoint * $relationWeight;
             $finalPoint +=$relationPoint;
             $relationWeights += $relationWeight;
-            $all[] = ['parameters'=>$parameters, 'points'=>$pointsEntity, 'track'=>$ppp];
         }
 
-        return $all;
 
         return round($finalPoint * 1/$relationWeights, 4);
 
