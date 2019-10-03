@@ -12,7 +12,7 @@ class Points extends Model
      * @var array
      */
     protected $fillable = [
-        'employee_id', 'appraiser_id', 'parameter_id', 'point',
+        'relation_id', 'parameter_id', 'point',
     ];
 
     /**
