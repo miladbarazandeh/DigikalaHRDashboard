@@ -231,10 +231,10 @@ public function setPointAction(Request $request)
             $categories = $form->categories;
             $values = $form->values;
             $totalPoint = 0;
+            $ppp =[];
             foreach ($parameters as $parameter) {
                 $pointsEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameter['id'])->first();
                 $parameterPoint = $pointsEntity->point * $parameter['weight'];
-                $ppp =[];
                 $ppp[] = $parameterPoint;
                 $categoryId = $parameter['categoryId'];
                 foreach ($categories as $category) {
