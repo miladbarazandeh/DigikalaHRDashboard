@@ -219,9 +219,9 @@ public function setPointAction(Request $request)
             $values = $form->values;
             $totalPoint = 0;
             foreach ($parameters as $parameter) {
-                $point = $pointsEntity->where('parameter_id', $parameter['id'])->first();
-                return $point;
-                $parameterPoint = $point->point * $parameter['weight'];
+                $point = $pointsEntity->where('parameter_id', $parameter['id'])->first()->point;
+                $parameterPoint = $point * $parameter['weight'];
+                return $parameterPoint;
                 $categoryId = $parameter['categoryId'];
                 foreach ($categories as $category) {
                     if ($category['id'] == $categoryId) {
