@@ -165,8 +165,8 @@ public function setPointAction(Request $request)
             if (($point < 1) && ($point > 10)) {
                 throw new \Exception('امتیاز وارد شده صحیح نیست.');
             }
-
-            $relation = Relation::where('appraisal_id', $employeeId)->where('appraiser_id', $appraiserId)->first();
+            $lastCycle = Cycle::orderBy('id', 'DESC')->first();
+            $relation = Relation::where('appraisal_id', $employeeId)->where('appraiser_id', $appraiserId)->where('cycle', $lastCycle->id)->first();
             $cycleId = $relation->cycle;
             $cycle = Cycle::find($cycleId);
             if (!$cycle->active) {
