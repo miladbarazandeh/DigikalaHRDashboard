@@ -106,7 +106,6 @@ class PointsController extends Controller
                 if(!$cycleRelations) {
                     continue;
                 }
-                return $cycleRelations;
                 $formId = $cycleRelations[0]->form_id;
                 $form = Forms::find($formId);
 
