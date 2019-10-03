@@ -180,7 +180,6 @@ public function setPointAction(Request $request)
 
             $pointDB = new Points(
                 [
-                    'employee_id'=>$employeeId,
                     'parameter_id'=>$parameterId,
                     'relation_id' =>$relation->id,
                     'point'=>$point
