@@ -197,7 +197,7 @@ public function setPointAction(Request $request)
 
     public function calculateKPI($userId, $cycleId)
     {
-        $relations = Relation::where('appraisal_id', $userId)->where('cycle', $cycleId)->where('evaluated', true)->get();
+        $relations = Relation::where('appraisal_id', $userId)->where('cycle', $cycleId)->where('evaluated', 1)->get();
 
         if(!$relations) {
             return 'هنوز ارزیابی انجام نشده است.';
