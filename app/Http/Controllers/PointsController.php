@@ -178,21 +178,26 @@ public function setPointAction(Request $request)
                 throw new \Exception('Relation Not found');
             }
 
-            $pointDB = new Points(
-                [
-                    'parameter_id'=>$parameterId,
-                    'relation_id' =>$relation->id,
-                    'point'=>$point
-                ]
-            );
-            $pointDB->save();
+            $pointEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameterId)->get();
+            if(!$pointEntity) {
+                $pointDB = new Points(
+                    [
+                        'parameter_id'=>$parameterId,
+                        'relation_id' =>$relation->id,
+                        'point'=>$point
+                    ]
+                );
+                $pointDB->save();
+            } else {
+                $pointEntity->update(['point'=>$point]);
+            }
             $form = Forms::find($relation->form_id);
             $questionCount = count($form->parameters);
             $answeredQuestions = Points::where('relation_id', $relation->id)->count();
             if ($questionCount == $answeredQuestions) {
                 $relation->update(['evaluated' => true]);
             }
-            return response()->json(['status'=>'success'], 200);
+            return response()->json(['status'=>'success', 'unanswered'=>$questionCount-$answeredQuestions], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
