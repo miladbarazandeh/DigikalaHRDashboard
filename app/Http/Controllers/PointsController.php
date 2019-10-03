@@ -99,6 +99,9 @@ class PointsController extends Controller
                 $cycleRelations = Relation::where('appraisal_id', $user->id)->where('cycle', $appraisalCycle->id)->get();
                 foreach ($cycleRelations as $cycleRelation) {
                     $employee = User::find($cycleRelation->appraiser_id);
+                    if ($cycleRelation->type != 'lead' || $cycleRelation->appraiser_id != $user->id) {
+                        continue;
+                    }
                     $formId = $cycleRelation->form_id;
                     $form = Forms::find($formId);
 
