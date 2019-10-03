@@ -103,33 +103,33 @@ class PointsController extends Controller
             foreach ($appraisalCycles as $appraisalCycle) {
                 $relations = [];
                 $cycleRelations = Relation::where('appraisal_id', $user->id)->where('cycle', $appraisalCycle->id)->get();
-                foreach ($cycleRelations as $cycleRelation) {
-                    $employee = User::find($cycleRelation->appraiser_id);
-                    if ($cycleRelation->type != 'lead' || $cycleRelation->appraiser_id != $user->id) {
-                        continue;
-                    }
-                    $formId = $cycleRelation->form_id;
-                    $form = Forms::find($formId);
+                $formId = current($cycleRelations)->form_id;
+                $form = Forms::find($formId);
 
-                    $parameters = $form['parameters'];
-                    $questions = [];
-                    foreach ($parameters as $parameter) {
-                        $param = Parameters::find($parameter['id']);
+                $parameters = $form['parameters'];
+
+                foreach ($parameters as $parameter) {
+                    $employees = [];
+                    $param = Parameters::find($parameter['id']);
+                    foreach ($cycleRelations as $cycleRelation) {
+                        $employee = User::find($cycleRelation->appraiser_id);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
-                        $questions[] = [
-                            'question'=>$param->title,
+                        $employees[] = [
+                            'name'=>$employee->name,
+                            'email'=>$employee->email,
                             'point'=> $point?$point->point:null
                         ];
                     }
                     $relations[] = [
-                        'employee'=> [
-                            'name'=>$employee->name,
-                            'email'=>$employee->email
+                        'questions'=> [
+                            'question'=>$param->title,
                         ],
-                        'question'=>$questions
+                        'employee'=>$employees
                     ];
 
                 }
+
+
 
                 $cycleRelationList[] = [
                     'cycle' => $appraisalCycle,
