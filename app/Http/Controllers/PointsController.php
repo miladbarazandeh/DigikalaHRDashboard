@@ -54,6 +54,7 @@ class PointsController extends Controller
                     }
                     $relations[] = [
                         'employee'=> [
+                            'id'=>$employee->id,
                             'name'=>$employee->name,
                             'email'=>$employee->email
                         ],
