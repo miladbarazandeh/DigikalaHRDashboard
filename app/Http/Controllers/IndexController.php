@@ -36,6 +36,7 @@ class IndexController extends Controller
 
             $appraiserCycles = Cycle::WhereIn('id', $cyclesAsAppraiserIds)->get(['id', 'title', 'active']);
 //            $appraisalCycles = Cycle::WhereIn('id', $cyclesAsAppraisalIds)->get();
+            $lastCycle = Cycle::orderBy('id', 'DESC')->first();
 
             $cards = Cards::all();
 
@@ -43,7 +44,7 @@ class IndexController extends Controller
                 [
                     'cycles'=>$appraiserCycles,
                     'cards'=>$cards,
-                    'kpi'=>36
+                    'kpi'=> (new PointsController())->calculateKPI($user->id, $lastCycle)
                 ]
             );
 

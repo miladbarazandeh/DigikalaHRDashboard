@@ -163,6 +163,12 @@ public function setPointAction(Request $request)
             $point = $query['point'];
 
             $relation = Relation::where('appraisal_id', $employeeId)->where('appraiser_id', $appraiserId)->first();
+            $cycleId = $relation->cycle;
+            $cycle = Cycle::find($cycleId);
+            if (!$cycle->active) {
+                throw new \Exception('مهلت این نظرسنجی به پایان رسیده است.');
+            }
+
 
             if (!$relation) {
                 throw new \Exception('Relation Not found');
@@ -187,6 +193,44 @@ public function setPointAction(Request $request)
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
+    }
+
+    public function calculateKPI($userId, $cycleId)
+    {
+        $relations = Relation::where('appraisal_id', $userId)->where('cycle', $cycleId)->where('evaluated', true)->get();
+
+        foreach ($relations as $relation) {
+            $pointsEntity = Points::where('relation_id', $relation->id);
+            $formId = $relation->form_id;
+            $form = Forms::find($formId);
+            $parameters = $form->parameters;
+            $categories = $form->categories;
+            $values = $form->values;
+            $totalPoint = 0;
+            foreach ($parameters as $parameter) {
+                $point = $pointsEntity->where('parameter_id', $parameter['id'])->first();
+                $parameterPoint = $point * $parameter['weight'];
+                $categoryId = $parameter['categoryId'];
+                foreach ($categories as $category) {
+                    if ($category['id'] == $categoryId) {
+                       $categoryPoint = $parameterPoint * $category['weight'];
+                       $valueId = $category['valueId'];
+                       break;
+                    }
+                }
+                foreach ($values as $value) {
+                    if ($value['id'] == $valueId) {
+                        $valuePoint = $categoryPoint * $value['weight'];
+                        $totalPoint +=$valuePoint;
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        return $valuePoint;
+
     }
 }
 
