@@ -199,8 +199,15 @@ public function setPointAction(Request $request)
     {
         $relations = Relation::where('appraisal_id', $userId)->where('cycle', $cycleId)->where('evaluated', true)->get();
 
+        if(!$relations) {
+            return 'هنوز ارزیابی انجام نشده است.';
+        }
+
         foreach ($relations as $relation) {
             $pointsEntity = Points::where('relation_id', $relation->id);
+            if (!$pointsEntity) {
+                continue;
+            }
             $formId = $relation->form_id;
             $form = Forms::find($formId);
             $parameters = $form->parameters;
