@@ -184,6 +184,8 @@ public function setPointAction(Request $request)
 
             $pointEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameterId)->first();
 
+            return [$relation, $relation->id];
+
             if(!$pointEntity) {
                 $pointDB = new Points(
                     [
