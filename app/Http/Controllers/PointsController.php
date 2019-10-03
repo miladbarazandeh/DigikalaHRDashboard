@@ -158,7 +158,7 @@ public function setPointAction(Request $request)
         try {
             $query = json_decode($request->getContent(), true);
             $employeeId = $query['employeeId'];
-            $parameterId = $query['$parameterId'];
+            $parameterId = $query['parameterId'];
             $appraiserId = $request->auth->id;
             $point = $query['point'];
 
