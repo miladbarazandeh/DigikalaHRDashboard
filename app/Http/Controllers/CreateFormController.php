@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Categories;
+use App\Cycle;
 use App\Forms;
 use App\Parameters;
 use App\Values;
@@ -12,6 +13,34 @@ use Illuminate\Http\Request;
 
 class CreateFormController extends Controller
 {
+    public function createNewCycle(Request $request)
+    {
+        try{
+            $query = json_decode($request->getContent(), true);
+            $title = $query['title'];
+            $lastCycle = Cycle::orderBy('id', 'DESC')->first();
+            if ($lastCycle) {
+                $lastCycle->update(['active'=>false]);
+            }
+            $newCycle = new Cycle(
+                [
+                    'title'=>$title,
+                    'active'=>true
+                ]
+            );
+            $newCycle->save();
+            return response()->json(['message'=>'دوره جدید ایجاد شد.']);
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
+
+    }
+
+    public function getAllCycles(Request $request)
+    {
+        $lastCycle = Cycle::All();
+
+    }
 
     public function getAll()
     {
