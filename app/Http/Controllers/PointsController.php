@@ -194,6 +194,7 @@ public function setPointAction(Request $request)
                     ]
                 );
                 $pointDB->save();
+                $pointDB->update(['relation_id'=>$relation->id]);
             } else {
                 $pointEntity->update(['point'=>$point]);
             }
