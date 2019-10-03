@@ -203,7 +203,10 @@ public function setPointAction(Request $request)
             return 'هنوز ارزیابی انجام نشده است.';
         }
 
+        $relationWeights = 0;
+        $finalPoint = 0;
         foreach ($relations as $relation) {
+            $relationWeight = $relation->weight;
             $pointsEntity = Points::where('relation_id', $relation->id);
             if (!$pointsEntity) {
                 continue;
@@ -228,15 +231,18 @@ public function setPointAction(Request $request)
                 foreach ($values as $value) {
                     if ($value['id'] == $valueId) {
                         $valuePoint = $categoryPoint * $value['weight'];
-                        $totalPoint +=$valuePoint;
+                        $totalPoint += $valuePoint;
                         break;
                     }
                 }
 
             }
+            $relationPoint = $totalPoint * $relationWeight;
+            $finalPoint +=$relationPoint;
+            $relationWeights += $relationPoint;
         }
 
-        return $valuePoint;
+        return $finalPoint * (1/$relationWeights);
 
     }
 }
