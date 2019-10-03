@@ -208,9 +208,9 @@ public function setPointAction(Request $request)
         $finalPoint = 0;
         foreach ($relations as $relation) {
             $relationWeight = $relation->weight;
-            if (!$pointsEntity) {
-                continue;
-            }
+//            if (!$pointsEntity) {
+//                continue;
+//            }
             $formId = $relation->form_id;
             $form = Forms::find($formId);
             $parameters = $form->parameters;
