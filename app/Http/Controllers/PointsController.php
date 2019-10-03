@@ -195,7 +195,6 @@ public function setPointAction(Request $request)
             $form = Forms::find($relation->form_id);
             $questionCount = count($form->parameters);
             $answeredQuestions = Points::where('relation_id', $relation->id)->count();
-            return [$questionCount, $answeredQuestions];
             if ($questionCount == $answeredQuestions) {
                 $relation->update(['evaluated' => true]);
             }
