@@ -208,7 +208,6 @@ public function setPointAction(Request $request)
         $finalPoint = 0;
         foreach ($relations as $relation) {
             $relationWeight = $relation->weight;
-            $pointsEntity = Points::where('relation_id', $relation->id);
             if (!$pointsEntity) {
                 continue;
             }
@@ -219,11 +218,11 @@ public function setPointAction(Request $request)
             $values = $form->values;
             $totalPoint = 0;
             foreach ($parameters as $parameter) {
-                $point = $pointsEntity->where('parameter_id', $parameter['id'])->first();
-                if(!$point){
+                $pointsEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameter['id'])->first();
+                if(!$pointsEntity){
                     return $parameter;
                 }
-                $parameterPoint = $point->point * $parameter['weight'];
+                $parameterPoint = $pointsEntity->point * $parameter['weight'];
                 $categoryId = $parameter['categoryId'];
                 foreach ($categories as $category) {
                     if ($category['id'] == $categoryId) {
