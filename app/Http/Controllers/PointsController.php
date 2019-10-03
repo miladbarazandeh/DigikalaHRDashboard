@@ -203,6 +203,8 @@ public function setPointAction(Request $request)
             return 'هنوز ارزیابی انجام نشده است.';
         }
 
+        return $relations;
+
         $relationWeights = 0;
         $finalPoint = 0;
         foreach ($relations as $relation) {
