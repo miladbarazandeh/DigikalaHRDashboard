@@ -203,7 +203,7 @@ public function setPointAction(Request $request)
             return 'هنوز ارزیابی انجام نشده است.';
         }
 
-        return $relations;
+        return [$userId, $cycleId];
 
         $relationWeights = 0;
         $finalPoint = 0;
