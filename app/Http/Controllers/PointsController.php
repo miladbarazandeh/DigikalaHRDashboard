@@ -158,25 +158,31 @@ public function setPointAction(Request $request)
         try {
             $query = json_decode($request->getContent(), true);
             $employeeId = $query['employeeId'];
+            $parameterId = $query['$parameterId'];
             $appraiserId = $request->auth->id;
-            $points = $query['points'];
+            $point = $query['point'];
 
-            $relation = Relation::where('appraisal_id', $employeeId)->where('appraiser_id', $appraiserId)->get();
+            $relation = Relation::where('appraisal_id', $employeeId)->where('appraiser_id', $appraiserId)->first();
 
-            foreach ($points as $parameterId=>$point)
-            {
-                $pointDB = new Points(
-                    [
-                        'employee_id'=>$employeeId,
-                        'parameter_id'=>$parameterId,
-                        'relation_id' =>$relation->id,
-                        'point'=>$point
-                    ]
-                );
-                $pointDB->save();
+            if (!$relation) {
+                throw new \Exception('Relation Not found');
             }
 
-            $relation->update(['evaluated' => true]);
+            $pointDB = new Points(
+                [
+                    'employee_id'=>$employeeId,
+                    'parameter_id'=>$parameterId,
+                    'relation_id' =>$relation->id,
+                    'point'=>$point
+                ]
+            );
+            $pointDB->save();
+            $form = Forms::find($relation->form_id);
+            $questionCount = count($form->parameters);
+            $answeredQuestions = Points::where('relation_id', $relation->id)->count();
+            if ($questionCount == $answeredQuestions) {
+                $relation->update(['evaluated' => true]);
+            }
             return response()->json(['status'=>'success'], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
