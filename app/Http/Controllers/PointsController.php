@@ -58,7 +58,8 @@ class PointsController extends Controller
                         'employee'=> [
                             'id'=>$employee->id,
                             'name'=>$employee->name,
-                            'email'=>$employee->email
+                            'email'=>$employee->email,
+                            'done'=>$cycleRelation->evaluated
                         ],
                         'question'=>$questions,
                         'unanswered'=> $questionCount-$answeredQuestions
