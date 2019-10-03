@@ -100,8 +100,8 @@ class PointsController extends Controller
             $appraisalCycles = Cycle::WhereIn('id', $cyclesAsAppraisalIds)->get(['id', 'title', 'active']);
 
             $cycleRelationList = [];
-            $relations = [];
             foreach ($appraisalCycles as $appraisalCycle) {
+                $relations = [];
                 $cycleRelations = Relation::where('appraisal_id', $user->id)->where('cycle', $appraisalCycle->id)->get();
                 foreach ($cycleRelations as $cycleRelation) {
                     $employee = User::find($cycleRelation->appraiser_id);
