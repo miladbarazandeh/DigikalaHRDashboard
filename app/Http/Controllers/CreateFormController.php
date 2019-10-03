@@ -148,11 +148,9 @@ class CreateFormController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $title = $query['title'];
-            $valueId = $query['valueId'];
             $category = new Categories(
                 [
                     'title'=>$title,
-                    'value_id'=>$valueId,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]
@@ -171,11 +169,9 @@ class CreateFormController extends Controller
         try {
             $query = json_decode($request->getContent(), true);
             $title = $query['title'];
-            $categoryId = $query['categoryId'];
             $parameter = new Parameters(
                 [
                     'title'=>$title,
-                    'category_id'=>$categoryId,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]
