@@ -40,6 +40,8 @@ class PointsController extends Controller
                     $employee = User::find($cycleRelation->appraisal_id);
                     $formId = $cycleRelation->form_id;
                     $form = Forms::find($formId);
+                    $questionCount = count($form->parameters);
+                    $answeredQuestions = Points::where('relation_id', $cycleRelation->id)->count();
 
                     $parameters = $form['parameters'];
                     $questions = [];
@@ -58,7 +60,8 @@ class PointsController extends Controller
                             'name'=>$employee->name,
                             'email'=>$employee->email
                         ],
-                        'question'=>$questions
+                        'question'=>$questions,
+                        'unanswered'=> $questionCount-$answeredQuestions
                     ];
 
                 }
@@ -205,7 +208,7 @@ public function setPointAction(Request $request)
             if ($questionCount == $answeredQuestions) {
                 $relation->update(['evaluated' => true]);
             }
-            return response()->json(['status'=>'success', 'unanswered'=>$questionCount-$answeredQuestions], 200);
+            return response()->json(['message'=>'پیام شما ثبت شد.', 'unanswered'=>$questionCount-$answeredQuestions], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
