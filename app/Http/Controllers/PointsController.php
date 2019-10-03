@@ -243,7 +243,7 @@ public function setPointAction(Request $request)
         }
 
 
-        return $finalPoint * 1/$relationWeights;
+        return round($finalPoint * 1/$relationWeights, 2);
 
     }
 }
