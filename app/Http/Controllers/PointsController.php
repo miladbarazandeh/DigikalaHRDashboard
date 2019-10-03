@@ -47,6 +47,7 @@ class PointsController extends Controller
                         $param = Parameters::find($parameter['id']);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
                         $questions[] = [
+                            'questionId'=>$param->id,
                             'question'=>$param->title,
                             'point'=> $point?$point->point:null
                             ];
