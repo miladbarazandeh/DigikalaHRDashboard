@@ -237,12 +237,12 @@ public function setPointAction(Request $request)
                 }
 
             }
-            $relationPoint = $totalPoint;
+            $relationPoint = $totalPoint * $relationWeight;
             $finalPoint +=$relationPoint;
             $relationWeights += $relationPoint;
         }
 
-        return $finalPoint;
+        return $finalPoint * 1/$relationWeights;
 
     }
 }
