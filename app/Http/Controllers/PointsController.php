@@ -199,7 +199,7 @@ public function setPointAction(Request $request)
     {
         $relations = Relation::where('appraisal_id', $userId)->where('cycle', $cycleId)->where('evaluated', 1)->get();
 
-        if($relations == []) {
+        if(!$relations) {
             return 'هنوز ارزیابی انجام نشده است.';
         }
 
@@ -242,7 +242,7 @@ public function setPointAction(Request $request)
             $relationWeights += $relationPoint;
         }
 
-        return $finalPoint;
+        return $finalPoint * 1/$relationWeights;
 
     }
 }
