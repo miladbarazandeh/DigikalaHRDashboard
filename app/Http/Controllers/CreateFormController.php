@@ -13,6 +13,27 @@ use Illuminate\Http\Request;
 
 class CreateFormController extends Controller
 {
+
+    public function newFormData()
+    {
+        try {
+            $forms = Forms::all();
+            $values = Values::all();
+            $params = Parameters::all();
+            $categories = Categories::all();
+
+            return response()->json(
+                [
+                    'forms'=>$forms,
+                    'values' => $values,
+                    'categories' => $categories,
+                    'parameter' => $params
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
+    }
     public function createNewCycle(Request $request)
     {
         try{

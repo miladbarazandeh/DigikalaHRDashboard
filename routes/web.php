@@ -79,6 +79,7 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         });
 
         $router->get('get-categories', 'CreateFormController@getCategories');
+        $router->get('new-form', 'CreateFormController@newFormData');
 
         $router->post(
             '/set-values',
