@@ -43,7 +43,7 @@ class AuthController extends Controller
         if (!$user) {
 
             return response()->json([
-                'error' => 'User does not exist.'
+                'error' => 'مشخصات وارد شده اشتباه است.'
             ], 400);
         }
 
@@ -57,7 +57,7 @@ class AuthController extends Controller
             ], 200);
         }
         return response()->json([
-            'error' => 'Login details provided does not exit.'
+            'error' => 'مشخصات وارد شده اشتباه است.'
         ], 400);
     }
 }
