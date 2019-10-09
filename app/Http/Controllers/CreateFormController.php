@@ -17,10 +17,11 @@ class CreateFormController extends Controller
     public function newFormData()
     {
         try {
-            $forms = Forms::all();
+            $forms = Forms::all(['id', 'name']);
             $values = Values::all(['id', 'title']);
             $params = Parameters::all(['id', 'title']);
             $categories = Categories::all(['id', 'title']);
+
 
             return response()->json(
                 [
