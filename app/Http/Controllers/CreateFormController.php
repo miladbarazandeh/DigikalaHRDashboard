@@ -66,9 +66,9 @@ class CreateFormController extends Controller
     public function getAll()
     {
         try {
-            $values = Values::all();
-            $params = Parameters::all();
-            $categories = Categories::all();
+            $values = Values::all(['id', 'title']);
+            $params = Parameters::all(['id', 'title']);
+            $categories = Categories::all(['id', 'title']);
 
             return response()->json(
                 [
