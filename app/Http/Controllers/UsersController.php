@@ -39,6 +39,7 @@ class UsersController extends Controller
             $employees = [];
 
             if(!empty($assignedUsers)) {
+                return 'here';
                 foreach ($assignedUsers as $assignedUser) {
                     $employee = User::find($assignedUser['appraiser_id']);
                     $employees[] = [
