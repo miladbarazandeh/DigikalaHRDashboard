@@ -51,6 +51,9 @@ class UsersController extends Controller
                 }
                 $result['assigned_users'] = $employees;
                 $result['form_id'] = $formId;
+            } else {
+                $result['assigned_users'] = null;
+                $result['form_id'] = null;
             }
             return response()->json($result, 200);
         } catch (\Exception $exception) {
