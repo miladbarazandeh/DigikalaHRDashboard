@@ -37,19 +37,21 @@ class UsersController extends Controller
             ];
             $assignedUsers = Relation::where('appraisal_id', $userId)->get();
             $employees = [];
-            foreach ($assignedUsers as $assignedUser) {
-                $employee = User::find($assignedUser['appraiser_id']);
-                $employees[] = [
-                    'id' => $employee->id,
-                    'name'=>$employee->name,
-                    'email'=>$employee->email,
-                    'weight'=>$assignedUser->weight,
-                    'type'=>$assignedUser->type
-                ];
-                $formId= $assignedUser->form_id;
+            if($assignedUsers) {
+                foreach ($assignedUsers as $assignedUser) {
+                    $employee = User::find($assignedUser['appraiser_id']);
+                    $employees[] = [
+                        'id' => $employee->id,
+                        'name'=>$employee->name,
+                        'email'=>$employee->email,
+                        'weight'=>$assignedUser->weight,
+                        'type'=>$assignedUser->type
+                    ];
+                    $formId= $assignedUser->form_id;
+                }
+                $result['assigned_users'] = $employees;
+                $result['form_id'] = $formId;
             }
-            $result['assigned_users'] = $employees;
-            $result['form_id'] = $formId;
             return response()->json($result, 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
