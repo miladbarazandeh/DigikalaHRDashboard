@@ -154,7 +154,6 @@ class UsersController extends Controller
             $role = $query['role'];
             $assignedUsers = isset($query['assignedUserIds'])?$query['assignedUserIds']:null;
             $user = User::find($userId);
-            $userIds = [];
             foreach ($assignedUsers as $assignedUser) {
                 $relation = new Relation(
                     [
@@ -170,8 +169,7 @@ class UsersController extends Controller
                 [
                     'name'=>$name,
                     'email'=>$email,
-                    'role'=>$role,
-                    'assigned_user_ids'=>$userIds
+                    'role'=>$role
                 ]
             );
             return response()->json(['message'=>'User updated.'], 200);
