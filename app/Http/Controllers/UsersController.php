@@ -152,18 +152,25 @@ class UsersController extends Controller
             $email = $query['email'];
             $formId = $query['formId'];
             $role = $query['role'];
-            $assignedUserIds = $query['assignedUserIds'];
+            $assignedUsers = isset($query['assignedUserIds'])?$query['assignedUserIds']:null;
             $user = User::find($userId);
             $userIds = [];
-            foreach ($assignedUserIds as $assignedUserId) {
-                $userIds[] = [$assignedUserId=>false];
+            foreach ($assignedUsers as $assignedUser) {
+                $relation = new Relation(
+                    [
+                        'appraiser_id'=>$assignedUser['id'],
+                        'appraisal_id'=>$user->id,
+                        'form_id'=>$formId,
+                        'weight'=>$assignedUser['weight']
+                    ]
+                );
+                $relation->save();
             }
             $user->update(
                 [
                     'name'=>$name,
                     'email'=>$email,
                     'role'=>$role,
-                    'form_id'=>$formId,
                     'assigned_user_ids'=>$userIds
                 ]
             );
