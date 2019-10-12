@@ -37,6 +37,8 @@ class UsersController extends Controller
             ];
             $assignedUsers = Relation::where('appraisal_id', $userId)->get();
             $employees = [];
+
+            return $result;
             if(!empty($assignedUsers)) {
                 foreach ($assignedUsers as $assignedUser) {
                     $employee = User::find($assignedUser['appraiser_id']);
