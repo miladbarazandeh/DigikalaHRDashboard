@@ -159,9 +159,10 @@ class UsersController extends Controller
             $user = User::find($userId);
 //            Relation::where('appraisal_id', $user->id)->delete();
             $lastCycle = Cycle::orderBy('id', 'DESC')->first();
+            $assignedUserIds = [];
             foreach ($assignedUsers as $assignedUser) {
+                array_push($assignedUserIds, $assignedUser['id']);
                 $relation = Relation::where('appraisal_id', $user->id)->where('appraiser_id', $assignedUser['id'])->where('cycle', $lastCycle->id)->first();
-
                 if ($relation) {
                     $relation->update(['form_id'=>$formId, 'weight'=>$assignedUser['weight']]);
                 } else {
@@ -177,6 +178,13 @@ class UsersController extends Controller
                     $newRelation->save();
                 }
 
+            }
+
+            $lastRelations = Relation::where('appraisal_id', $user->id)->where('cycle', $lastCycle->id)->get();
+            foreach ($lastRelations as $lastRelation) {
+                if (!in_array($lastRelation->appraiser_id, $assignedUserIds)) {
+                    return $lastRelation->id;
+                }
             }
             $user->update(
                 [
