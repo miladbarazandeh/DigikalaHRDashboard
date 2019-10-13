@@ -185,7 +185,8 @@ class UsersController extends Controller
             foreach ($lastRelations as $lastRelation) {
                 if (!in_array($lastRelation->appraiser_id, $assignedUserIds)) {
 //                    array_push($relationsTodelete, $lastRelation->id);
-                    $lastRelation->delete();
+                    Relation::find($lastRelation->id)->delete();
+//                    $lastRelation->delete();
                 }
             }
 //            return $relationsTodelete;
