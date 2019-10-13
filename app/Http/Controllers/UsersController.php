@@ -154,6 +154,7 @@ class UsersController extends Controller
             $role = $query['role'];
             $assignedUsers = isset($query['assignedUserIds'])?$query['assignedUserIds']:null;
             $user = User::find($userId);
+            Relation::where('appraisal_id', $user->id)->delete();
             foreach ($assignedUsers as $assignedUser) {
                 $relation = new Relation(
                     [
