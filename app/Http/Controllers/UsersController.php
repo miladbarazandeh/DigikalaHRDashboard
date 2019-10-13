@@ -184,10 +184,11 @@ class UsersController extends Controller
             $relationsTodelete = [];
             foreach ($lastRelations as $lastRelation) {
                 if (!in_array($lastRelation->appraiser_id, $assignedUserIds)) {
-                    array_push($relationsTodelete, $lastRelation->id);
+//                    array_push($relationsTodelete, $lastRelation->id);
+                    $lastRelation->delete();
                 }
             }
-            return $relationsTodelete;
+//            return $relationsTodelete;
             $user->update(
                 [
                     'name'=>$name,
