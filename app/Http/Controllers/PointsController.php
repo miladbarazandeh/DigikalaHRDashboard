@@ -117,8 +117,12 @@ class PointsController extends Controller
                     foreach ($cycleRelations as $cycleRelation) {
                         $employee = User::find($cycleRelation->appraiser_id);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
+                        $name = $employee->name;
+                        if ($cycleRelation->type == 'team') {
+                            $name = 'همکار';
+                        }
                         $employees[] = [
-                            'name'=>$employee->name,
+                            'name'=>$name,
                             'email'=>$employee->email,
                             'point'=> $point?$point->point:null
                         ];
