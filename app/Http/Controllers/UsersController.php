@@ -181,11 +181,13 @@ class UsersController extends Controller
             }
 
             $lastRelations = Relation::where('appraisal_id', $user->id)->where('cycle', $lastCycle->id)->get();
+            $relationsTodelete = [];
             foreach ($lastRelations as $lastRelation) {
                 if (!in_array($lastRelation->appraiser_id, $assignedUserIds)) {
-                    return 'last: '.$lastRelation->id;
+                    array_push($relationsTodelete, $lastRelation->id);
                 }
             }
+            return $relationsTodelete;
             $user->update(
                 [
                     'name'=>$name,
