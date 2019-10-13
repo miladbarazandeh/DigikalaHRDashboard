@@ -183,7 +183,7 @@ class UsersController extends Controller
             $lastRelations = Relation::where('appraisal_id', $user->id)->where('cycle', $lastCycle->id)->get();
             foreach ($lastRelations as $lastRelation) {
                 if (!in_array($lastRelation->appraiser_id, $assignedUserIds)) {
-                    return $lastRelation->id;
+                    return 'last: '.$lastRelation->id;
                 }
             }
             $user->update(
