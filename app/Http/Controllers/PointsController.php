@@ -53,7 +53,7 @@ class PointsController extends Controller
                             if ($targetEntity) {
                                 $target = $targetEntity->target;
                             }
-                            return $targetEntity;
+                            return [$cycleRelation->id, $employee->id, $parameter['id']];
                         }
                         $param = Parameters::find($parameter['id']);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
