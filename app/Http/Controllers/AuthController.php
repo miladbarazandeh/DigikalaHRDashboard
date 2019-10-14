@@ -60,4 +60,38 @@ class AuthController extends Controller
             'error' => 'مشخصات وارد شده اشتباه است.'
         ], 400);
     }
+
+
+    public function adminAuthenticate(User $user) {
+//        return $this->request->json()->all();
+        \Validator::make($this->request->json()->all(), [
+            'login'     => 'required',
+            'password'  => 'required'
+        ]);
+        $login_type = filter_var($this->request->json('login'), FILTER_VALIDATE_EMAIL ) ? 'email' : 'username'; //check if the login variable is an email or a username
+        if($login_type == 'email'){
+            $user = User::where('email', $this->request->json('login'))->first(); // Find the user by email
+        }else{
+            $user = User::where('username', $this->request->json('login'))->first(); // Find the user by username
+        }
+        if (!$user) {
+
+            return response()->json([
+                'error' => 'مشخصات وارد شده اشتباه است.'
+            ], 400);
+        }
+
+        // Verify the password and generate the token
+        if (Hash::check($this->request->json('password'), $user->password) && $user->role == 'admin') {
+
+            return response()->json([
+                'status'  => 200,
+                'message' => 'Login Successful',
+                'data'    => ['token' => $this->jwt($user) , 'user'=>[ 'name'=>$user->name, 'role'=>$user->role, 'email'=>$user->email]] // return token
+            ], 200);
+        }
+        return response()->json([
+            'error' => 'مشخصات وارد شده اشتباه است.'
+        ], 400);
+    }
 }
