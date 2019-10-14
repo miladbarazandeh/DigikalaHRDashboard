@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Cycle;
 use App\Relation;
 use App\User;
 use Illuminate\Support\Facades\Hash;
@@ -116,6 +117,7 @@ class UsersController extends Controller
             $formId = $query['formId'];
             $role = $query['role'];
             $password = $query['password'];
+            $lastCycle = Cycle::orderBy('id', 'DESC')->first();
             $assignedUsers = isset($query['assignedUsers'])?$query['assignedUsers']:null;
             $user = new User(
                 [
@@ -133,7 +135,8 @@ class UsersController extends Controller
                         'appraiser_id'=>$assignedUser['id'],
                         'appraisal_id'=>$user->id,
                         'form_id'=>$formId,
-                        'weight'=>$assignedUser['weight']
+                        'weight'=>$assignedUser['weight'],
+                        'cycle'=>$lastCycle->id
                     ]
                 );
                 $relation->save();
@@ -154,17 +157,26 @@ class UsersController extends Controller
             $role = $query['role'];
             $assignedUsers = isset($query['assignedUserIds'])?$query['assignedUserIds']:null;
             $user = User::find($userId);
-            Relation::where('appraisal_id', $user->id)->delete();
+//            Relation::where('appraisal_id', $user->id)->delete();
+            $lastCycle = Cycle::orderBy('id', 'DESC')->first();
             foreach ($assignedUsers as $assignedUser) {
-                $relation = new Relation(
-                    [
-                        'appraiser_id'=>$assignedUser['id'],
-                        'appraisal_id'=>$user->id,
-                        'form_id'=>$formId,
-                        'weight'=>$assignedUser['weight']
-                    ]
-                );
-                $relation->save();
+                $relation = Relation::where('appraisal_id', $user->id)->where('appraiser_id', $assignedUser['id'])->where('cycle', $lastCycle->id)->get();
+
+                if ($relation) {
+                    $relation->update(['form_id'=>$formId, 'weight'=>$assignedUser['weight']]);
+                } else {
+                    $newRelation = new Relation(
+                        [
+                            'appraiser_id'=>$assignedUser['id'],
+                            'appraisal_id'=>$user->id,
+                            'form_id'=>$formId,
+                            'weight'=>$assignedUser['weight'],
+                            'cycle'=>$lastCycle->id
+                        ]
+                    );
+                    $newRelation->save();
+                }
+
             }
             $user->update(
                 [
