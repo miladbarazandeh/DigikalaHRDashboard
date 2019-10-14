@@ -49,11 +49,10 @@ class PointsController extends Controller
                     foreach ($parameters as $parameter) {
                         $target = 0;
                         if ($cycleRelation->weight > 0.1) {
-                            $targetEntity = Target::where('cycle', $cycleRelation->id)->where('user_id', $employee->id)->where('parameter_id', $parameter['id'])->first();
+                            $targetEntity = Target::where('cycle', $appraiserCycle->id)->where('user_id', $employee->id)->where('parameter_id', $parameter['id'])->first();
                             if ($targetEntity) {
                                 $target = $targetEntity->target;
                             }
-                            return [$cycleRelation->id, $employee->id, $parameter['id']];
                         }
                         $param = Parameters::find($parameter['id']);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
