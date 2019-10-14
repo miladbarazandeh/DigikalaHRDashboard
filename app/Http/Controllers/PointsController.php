@@ -118,12 +118,15 @@ class PointsController extends Controller
                         $employee = User::find($cycleRelation->appraiser_id);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
                         $name = $employee->name;
+                        $email= $employee->email;
                         if ($cycleRelation->weight < 0.1 && $cycleRelation->appraiser_id != $cycleRelation->appraisal_id) {
                             $name = 'همکار';
+                            $email = 'hidden';
+
                         }
                         $employees[] = [
                             'name'=>$name,
-                            'email'=>$employee->email,
+                            'email'=>$email,
                             'point'=> $point?$point->point:null
                         ];
                     }
