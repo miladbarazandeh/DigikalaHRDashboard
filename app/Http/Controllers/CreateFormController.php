@@ -119,11 +119,12 @@ class CreateFormController extends Controller
             return response()->json($exception->getMessage(), 400);
         }
     }
+
     public function editAction(Request $request)
     {
         try {
             $query = json_decode($request->getContent(), true);
-            $formId = $query['formId'];
+            $formId = $query['id'];
             $name = $query['name'];
             $values = $query['values'];
             $categories = $query['categories'];
