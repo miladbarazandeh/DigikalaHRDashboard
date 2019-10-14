@@ -48,11 +48,12 @@ class PointsController extends Controller
                     $questions = [];
                     foreach ($parameters as $parameter) {
                         $target = 0;
-                        if ($cycleRelation->weight > 0.1 || $cycleRelation->appraiser_id == $cycleRelation->appraisal_id) {
+                        if ($cycleRelation->weight > 0.1) {
                             $targetEntity = Target::where('cycle', $cycleRelation->id)->where('user_id', $employee->id)->where('parameter_id', $parameter['id'])->first();
                             if ($targetEntity) {
                                 $target = $targetEntity->target;
                             }
+                            return $targetEntity;
                         }
                         $param = Parameters::find($parameter['id']);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
