@@ -137,7 +137,7 @@ class CreateFormController extends Controller
                     'parameters'=>$parameters
                 ]
             );
-            return response()->json(['message'=>'فرم حذف شد'], 200);
+            return response()->json(['message'=>'فرم تغییر یافت'], 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
