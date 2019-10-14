@@ -22,6 +22,13 @@ $router->post(
     ]
 );
 
+$router->post(
+    'auth/admin-login',
+    [
+        'uses' => 'AuthController@adminAuthenticate'
+    ]
+);
+
 //$router->group(['middleware' => 'cors'],
 //    function() use ($router) {
 //        $router->post(
