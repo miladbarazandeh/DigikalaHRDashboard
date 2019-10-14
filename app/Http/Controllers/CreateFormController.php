@@ -119,6 +119,29 @@ class CreateFormController extends Controller
             return response()->json($exception->getMessage(), 400);
         }
     }
+    public function editAction(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $formId = $query['formId'];
+            $name = $query['name'];
+            $values = $query['values'];
+            $categories = $query['categories'];
+            $parameters = $query['parameters'];
+            $form = Forms::find($formId);
+            $form->update(
+                [
+                    'name'=>$name,
+                    'values'=>$values,
+                    'categories'=>$categories,
+                    'parameters'=>$parameters
+                ]
+            );
+            return response()->json(['message'=>'فرم حذف شد'], 200);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
 
     public function setFormAction(Request $request)
     {

@@ -71,6 +71,7 @@ $router->group(['middleware' => 'jwt.admin.auth'],
         });
 
         $router->post('delete-form', 'CreateFormController@deleteAction');
+        $router->post('edit-form', 'CreateFormController@editAction');
 
         $router->get('get-values', function () {
             return \App\Values::all();
