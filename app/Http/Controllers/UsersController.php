@@ -160,7 +160,7 @@ class UsersController extends Controller
 //            Relation::where('appraisal_id', $user->id)->delete();
             $lastCycle = Cycle::orderBy('id', 'DESC')->first();
             foreach ($assignedUsers as $assignedUser) {
-                $relation = Relation::where('appraisal_id', $user->id)->where('appraiser_id', $assignedUser['id'])->where('cycle', $lastCycle->id)->get();
+                $relation = Relation::where('appraisal_id', $user->id)->where('appraiser_id', $assignedUser['id'])->where('cycle', $lastCycle->id)->first();
 
                 if ($relation) {
                     $relation->update(['form_id'=>$formId, 'weight'=>$assignedUser['weight']]);
