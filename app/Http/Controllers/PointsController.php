@@ -9,6 +9,7 @@ use App\Forms;
 use App\Parameters;
 use App\Points;
 use App\Relation;
+use App\Target;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -46,12 +47,20 @@ class PointsController extends Controller
                     $parameters = $form['parameters'];
                     $questions = [];
                     foreach ($parameters as $parameter) {
+                        $target = 0;
+                        if ($cycleRelation->weight > 0.1 || $cycleRelation->appraiser_id == $cycleRelation->appraisal_id) {
+                            $targetEntity = Target::where('cycle', $cycleRelation->id)->where('user_id', $employee->id)->where('parameter_id', $parameter['id'])->first();
+                            if ($targetEntity) {
+                                $target = $targetEntity->target;
+                            }
+                        }
                         $param = Parameters::find($parameter['id']);
                         $point = Points::where('relation_id', $cycleRelation->id)->where('parameter_id', $parameter['id'])->first();
                         $questions[] = [
                             'questionId'=>$param->id,
                             'question'=>$param->title,
-                            'point'=> $point?$point->point:null
+                            'point'=> $point?$point->point:null,
+                            'target'=>$target?$target:null
                             ];
                     }
                     $relations[] = [
@@ -280,6 +289,4 @@ public function setPointAction(Request $request)
 
     }
 }
-
-
 
