@@ -71,8 +71,18 @@ $router->group(['middleware' => 'jwt.admin.auth'],
             return $forms;
         });
 
+        $router->get(
+            '/get-form',
+            [
+                'uses' => 'PointsController@getFormAction'
+            ]
+        );
+
+
+
         $router->post('delete-form', 'CreateFormController@deleteAction');
         $router->post('edit-form', 'CreateFormController@editAction');
+        $router->get('edit-form', 'CreateFormController@getEditFormAction');
 
         $router->get('get-values', function () {
             return \App\Values::all();
@@ -136,12 +146,7 @@ $router->group(['middleware' => 'jwt.auth'],
         $router->get('/get-appraiser-list','PointsController@getAppraiserList');
         $router->get('/get-appraisal-list','PointsController@getAppraisalList');
         $router->post('password-reset', 'UsersController@resetPassword');
-        $router->get(
-            '/get-form',
-            [
-                'uses' => 'PointsController@getFormAction'
-            ]
-        );
+
         $router->post(
             '/set-point',
             [

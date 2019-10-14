@@ -157,8 +157,10 @@ class PointsController extends Controller
     public function getFormAction(Request $request)
     {
         try {
-            $query = json_decode($request->getContent(), true);
-            $formId = $query['formId'];
+//            $query = json_decode($request->getContent(), true);
+//            $formId = $query['formId'];
+
+            $formId = $request->get('formId');
 
             $form = Forms::find($formId);
 
