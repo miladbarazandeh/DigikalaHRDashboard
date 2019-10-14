@@ -141,7 +141,7 @@ class UsersController extends Controller
                 );
                 $relation->save();
             }
-            return response()->json(['message'=>'user added']);
+            return response()->json(['message'=>'کاربر اضافه شد']);
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
         }
@@ -185,7 +185,21 @@ class UsersController extends Controller
                     'role'=>$role
                 ]
             );
-            return response()->json(['message'=>'User updated.'], 200);
+            return response()->json(['message'=>'مشخصات کاربر تغییر یافت.'], 200);
+
+        } catch (\Exception $exception) {
+            return response()->json(['message'=>$exception->getMessage()], 400);
+        }
+    }
+
+
+    public function deleteAction(Request $request) {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $userId = $query['userId'];
+            $user = User::find($userId);
+            $user->delete();
+            return response()->json(['message'=>'کاربر حذف شد.'], 200);
 
         } catch (\Exception $exception) {
             return response()->json(['message'=>$exception->getMessage()], 400);
