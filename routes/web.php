@@ -152,37 +152,3 @@ $router->group(['middleware' => 'jwt.auth'],
         $router->get('/home','IndexController@getHome');
     }
 );
-
-$router->get(
-    '/import',
-    [
-        'uses' => 'ImportExcelController@importUsersAction'
-    ]
-);
-
-$router->get(
-    '/user-assign',
-    [
-        'uses' => 'ImportExcelController@setAssignedUserIds'
-    ]
-);
-
-$router->get(
-    '/import-parameters',
-    [
-        'uses' => 'ImportExcelController@importParametersAction'
-    ]
-);
-
-$router->get(
-    '/import-categories',
-    [
-        'uses' => 'ImportExcelController@importCategoriesAction'
-    ]
-);
-$router->get(
-    '/import-values',
-    [
-        'uses' => 'ImportExcelController@importValuesAction'
-    ]
-);
