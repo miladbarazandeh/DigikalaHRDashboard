@@ -121,6 +121,12 @@ class PointsController extends Controller
                 $parameters = $form['parameters'];
 
                 foreach ($parameters as $parameter) {
+                    $target = null;
+                    $targetEntity = Target::where('cycle', $appraisalCycle->id)->where('user_id', $user->id)->where('parameter_id', $parameter['id'])->first();
+                    if ($targetEntity) {
+                        $target = $targetEntity->target;
+                    }
+
                     $employees = [];
                     $param = Parameters::find($parameter['id']);
                     foreach ($cycleRelations as $cycleRelation) {
@@ -142,6 +148,7 @@ class PointsController extends Controller
                     $relations[] = [
                         'questions'=> [
                             'question'=>$param->title,
+                            'target'=>$target
                         ],
                         'employee'=>$employees
                     ];
