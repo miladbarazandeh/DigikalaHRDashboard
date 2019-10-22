@@ -243,7 +243,7 @@ public function setPointAction(Request $request)
         }
     }
 
-    public function calculateKPI($userId, $cycleId)
+    public function calculateKPI($userId, $cycleId, $usingTarget=false)
     {
         $relations = Relation::where('appraisal_id', $userId)->where('cycle', $cycleId)->where('evaluated', 1)->get();
 
@@ -276,7 +276,7 @@ public function setPointAction(Request $request)
                     }
                 }
 
-                if ($target) {
+                if ($target && $usingTarget) {
                     $parameterPoint = ($pointsEntity->point * $parameter['weight'])*10/$target;
                 } else {
                     $parameterPoint = $pointsEntity->point * $parameter['weight'];
