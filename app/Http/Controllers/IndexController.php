@@ -39,7 +39,7 @@ class IndexController extends Controller
             $lastCycle = Cycle::orderBy('id', 'DESC')->first();
 
             $cards = Cards::all();
-            $kpi = (new PointsController())->calculateKPI($user->id, $lastCycle->id);
+            $kpi = (new PointsController())->calculateKPI($user->id, $lastCycle->id, true);
 
             return response()->json(
                 [
