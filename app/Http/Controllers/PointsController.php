@@ -187,7 +187,7 @@ class PointsController extends Controller
     }
 
 
-public function setPointAction(Request $request)
+    public function setPointAction(Request $request)
     {
         try {
             $query = json_decode($request->getContent(), true);
@@ -265,12 +265,12 @@ public function setPointAction(Request $request)
                         'cycle'=>$lastCycle->id,
                         'parameter_id'=>$parameterId,
                         'user_id' =>$employeeId,
-                        'point'=>$point
+                        'target'=>$point
                     ]
                 );
                 $targetDB->save();
             } else {
-                $targetEntity->update(['point'=>$point]);
+                $targetEntity->update(['target'=>$point]);
             }
             return response()->json(['message'=>'پیام شما ثبت شد.'], 200);
         } catch (\Exception $exception) {
@@ -302,9 +302,12 @@ public function setPointAction(Request $request)
             $totalPoint = 0;
 
             foreach ($parameters as $parameter) {
+//                if (!in_array($parameter['id'], [132, 133, 134, 135])) {
+//                    continue;
+//                }
                 $pointsEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameter['id'])->first();
                 $target = 0;
-                if ($relation->weight > 0.1 || $relation->appraisal_id == $relation->appraiser_id) {
+                if (true) {
                     $targetEntity = Target::where('cycle', $cycleId)->where('user_id', $userId)->where('parameter_id', $parameter['id'])->first();
                     if ($targetEntity) {
                         $target = $targetEntity->target;
