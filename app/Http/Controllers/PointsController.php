@@ -256,7 +256,7 @@ class PointsController extends Controller
             }
             $lastCycle = Cycle::orderBy('id', 'DESC')->first();
 
-            $targetEntity = Target::where('user_id', $employeeId)->where('parameter_id', $parameterId)->first();
+            $targetEntity = Target::where('user_id', $employeeId)->where('cycle', $lastCycle->id)->where('parameter_id', $parameterId)->first();
 
 
             if(!$targetEntity) {
