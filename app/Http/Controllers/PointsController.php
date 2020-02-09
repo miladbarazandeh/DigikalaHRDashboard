@@ -243,6 +243,41 @@ public function setPointAction(Request $request)
         }
     }
 
+    public function setTargetAction(Request $request)
+    {
+        try {
+            $query = json_decode($request->getContent(), true);
+            $employeeId = $query['employeeId'];
+            $parameterId = $query['questionId'];
+            $point = $query['point'];
+
+            if (($point < 1) && ($point > 10)) {
+                throw new \Exception('امتیاز وارد شده صحیح نیست.');
+            }
+            $lastCycle = Cycle::orderBy('id', 'DESC')->first();
+
+            $targetEntity = Target::where('user_id', $employeeId)->where('parameter_id', $parameterId)->first();
+
+
+            if(!$targetEntity) {
+                $targetDB = new Target(
+                    [
+                        'cycle'=>$lastCycle->id,
+                        'parameter_id'=>$parameterId,
+                        'user_id' =>$employeeId,
+                        'point'=>$point
+                    ]
+                );
+                $targetDB->save();
+            } else {
+                $targetEntity->update(['point'=>$point]);
+            }
+            return response()->json(['message'=>'پیام شما ثبت شد.'], 200);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
+    }
+
     public function calculateKPI($userId, $cycleId, $usingTarget=false)
     {
         $relations = Relation::where('appraisal_id', $userId)->where('cycle', $cycleId)->where('evaluated', 1)->get();
