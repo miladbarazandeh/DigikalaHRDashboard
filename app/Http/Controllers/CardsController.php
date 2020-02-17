@@ -22,15 +22,13 @@ class CardsController extends Controller
             $url = $request->get('url');
             $id = $request->get('card_id');
             $show = $request->get('show');
+            $file = $request->file('file');
 
-            if ($request->has('file')) {
-                $file = $request->file('file');
+            if ($file) {
                 $extension = $file->getClientOriginalExtension();
                 $fileName = time().'.'.$extension;
                 $file->move('uploads/cards/', $fileName);
             }
-
-
 
 
             if(!in_array($id, [1, 2, 3])) {
