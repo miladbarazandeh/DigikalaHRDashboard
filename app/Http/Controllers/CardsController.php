@@ -26,7 +26,7 @@ class CardsController extends Controller
             $show = $request->get('show');
 
 
-            if ($request->has('file')) {
+            if ($request->has('file') && $request->get('file') != 'null') {
                 $file = $request->file('file');
                 return 'yes';
 //                $extension = $file->getClientOriginalExtension();
