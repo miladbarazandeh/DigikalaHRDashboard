@@ -26,12 +26,12 @@ class CardsController extends Controller
             $show = $request->get('show');
 
 
-            if ($request->has('file')) {
-                $file = $request->file('file');
-                $extension = $file->getClientOriginalExtension();
-                $fileName = time().'.'.$extension;
-                $file->move($baseUrl, $fileName);
-            }
+//            if ($request->has('file')) {
+//                $file = $request->file('file');
+//                $extension = $file->getClientOriginalExtension();
+//                $fileName = time().'.'.$extension;
+//                $file->move($baseUrl, $fileName);
+//            }
 
 
             if(!in_array($id, [1, 2, 3])) {
