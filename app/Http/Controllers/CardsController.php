@@ -16,7 +16,7 @@ class CardsController extends Controller
 
     public function submitCard(Request $request)
     {
-        $baseUrl = 'uploads/cards/';
+        $baseUrl = '/uploads/cards/';
 
         try{
             $title = $request->get('title');
