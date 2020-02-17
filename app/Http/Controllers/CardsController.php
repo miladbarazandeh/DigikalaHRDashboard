@@ -28,7 +28,7 @@ class CardsController extends Controller
 
             if ($request->has('file')) {
                 $file = $request->file('file');
-//                $extension = $file->getClientOriginalExtension();
+                $extension = $file->getClientOriginalExtension();
 //                $fileName = time().'.'.$extension;
 //                $file->move($baseUrl, $fileName);
             }
