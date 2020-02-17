@@ -14,7 +14,9 @@ class CardsController extends Controller
         return response()->json($cards);
     }
 
-    public function submitCard(Request $request) {
+    public function submitCard(Request $request)
+    {
+        $baseUrl = 'uploads/cards/';
 
         try{
             $title = $request->get('title');
@@ -27,7 +29,7 @@ class CardsController extends Controller
             if ($file) {
                 $extension = $file->getClientOriginalExtension();
                 $fileName = time().'.'.$extension;
-                $file->move('uploads/cards/', $fileName);
+                $file->move($baseUrl, $fileName);
             }
 
 
@@ -44,7 +46,7 @@ class CardsController extends Controller
                         'title'=>$title,
                         'text' => $desc,
                         'url' => $url,
-                        'image' => isset($fileName) ? $fileName : null,
+                        'image' => isset($fileName) ? $baseUrl.$fileName : null,
                         'active'=>$show? 1:0
                     ]
                 );
@@ -56,7 +58,8 @@ class CardsController extends Controller
                         'title'=>$title,
                         'text' => $desc,
                         'url' => $url,
-                        'active'=>$show? 1:0
+                        'active'=>$show? 1:0,
+                        'image' => isset($fileName) ? $baseUrl.$fileName : null
                     ]
                 );
             }
