@@ -19,10 +19,16 @@ class CardsController extends Controller
         try{
             $title = $request->get('title');
             $desc = $request->get('description');
-            $file = $request->get('file');
             $url = $request->get('url');
             $id = $request->get('card_id');
             $show = $request->get('show');
+
+            if ($request->has('file')) {
+                $file = $request->file('file');
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time().'.'.$extension;
+                $file->move('uploads/cards/', $fileName);
+            }
 
 
 
@@ -40,6 +46,7 @@ class CardsController extends Controller
                         'title'=>$title,
                         'text' => $desc,
                         'url' => $url,
+                        'image' => isset($fileName) ? $fileName : null,
                         'active'=>$show? 1:0
                     ]
                 );
