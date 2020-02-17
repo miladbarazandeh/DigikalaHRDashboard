@@ -28,10 +28,9 @@ class CardsController extends Controller
 
             if ($request->has('file') && $request->get('file') != 'null') {
                 $file = $request->file('file');
-                return 'yes';
-//                $extension = $file->getClientOriginalExtension();
-//                $fileName = time().'.'.$extension;
-//                $file->move($baseUrl, $fileName);
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time().'.'.$extension;
+                $file->move($baseUrl, $fileName);
             }
 
 
