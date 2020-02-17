@@ -26,7 +26,7 @@ class CardsController extends Controller
             $show = $request->get('show');
             $file = $request->file('file');
 
-            if ($file) {
+            if ($file != 'null') {
                 $extension = $file->getClientOriginalExtension();
                 $fileName = time().'.'.$extension;
                 $file->move($baseUrl, $fileName);
@@ -47,7 +47,7 @@ class CardsController extends Controller
                         'text' => $desc,
                         'url' => $url,
                         'image' => isset($fileName) ? $baseUrl.$fileName : null,
-                        'active'=>$show? 1:0
+                        'active'=>$show == 'true'? 1:0
                     ]
                 );
 
@@ -58,7 +58,7 @@ class CardsController extends Controller
                         'title'=>$title,
                         'text' => $desc,
                         'url' => $url,
-                        'active'=>$show? 1:0,
+                        'active'=>$show =='true'? 1:0,
                         'image' => isset($fileName) ? $baseUrl.$fileName : null
                     ]
                 );
