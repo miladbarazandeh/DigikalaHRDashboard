@@ -28,6 +28,7 @@ class UsersController extends Controller
             $query = json_decode($request->getContent(), true);
             $userId = $request->get('userId');
 //            $cycle = $query['cycle'];
+            $lastCycle = Cycle::orderBy('id', 'DESC')->first();
             $user = User::find($userId);
             $result = [
                 'id' =>$userId,
@@ -36,7 +37,7 @@ class UsersController extends Controller
                 'role'=>$user->role
 
             ];
-            $assignedUsers = Relation::where('appraisal_id', $userId)->get();
+            $assignedUsers = Relation::where('appraisal_id', $userId)->where('cycle', $lastCycle->id)->get();
             $employees = [];
             if($assignedUsers->isNotEmpty()) {
                 foreach ($assignedUsers as $assignedUser) {
