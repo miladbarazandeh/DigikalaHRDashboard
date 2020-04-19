@@ -150,7 +150,7 @@ $router->group(['middleware' => 'jwt.auth'],
         $router->post(
             '/set-point',
             [
-                'uses' => 'PointsController@setTargetAction'
+                'uses' => 'PointsController@setPointAction'
             ]
         );
 
