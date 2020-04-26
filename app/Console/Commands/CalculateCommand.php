@@ -45,9 +45,9 @@ class CalculateCommand extends Command
         $users = User::all();
         $file = fopen("result.csv","w");
         foreach ($users as $user) {
-            $softSkills = $this->calculateKPI(137, 2, true, 'softSkills');
-            $hardSkills = $this->calculateKPI(137, 2, true, 'hardSkills');
-            $kpiWithTarget = $this->calculateKPI(137, 2, true);
+            $softSkills = $this->calculateKPI($user->id, 2, true, 'softSkills');
+            $hardSkills = $this->calculateKPI($user->id, 2, true, 'hardSkills');
+            $kpiWithTarget = $this->calculateKPI($user->id, 2, true);
             $this->info(implode(', ', [$user->name, $softSkills, $hardSkills, $kpiWithTarget]));
             fputcsv($file, [$user->name, $softSkills, $hardSkills, $kpiWithTarget]);
 //            $list = $this->getAppraisalList($user);
