@@ -115,7 +115,7 @@ class CalculateCommand extends Command
                     continue;
                 }
                 $target = 0;
-                if (true) {
+                if ($relation->weight >= 0.1 || $relation->appraisal_id == $relation->appraiser_id) {
                     $targetEntity = Target::where('cycle', $cycleId)->where('user_id', $userId)->where('parameter_id', $parameter['id'])->first();
                     if ($targetEntity) {
                         $target = $targetEntity->target;
