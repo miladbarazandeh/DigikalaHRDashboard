@@ -111,6 +111,9 @@ class CalculateCommand extends Command
                 }
 
                 $pointsEntity = Points::where('relation_id', $relation->id)->where('parameter_id', $parameter['id'])->first();
+                if (!$pointsEntity) {
+                    continue;
+                }
                 $target = 0;
                 if (true) {
                     $targetEntity = Target::where('cycle', $cycleId)->where('user_id', $userId)->where('parameter_id', $parameter['id'])->first();
